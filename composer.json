@@ -1,0 +1,33 @@
+{
+  "name": "jinya/router-extensions",
+  "type": "library",
+  "require": {
+    "php": "^8.2",
+    "jinya/database": "^0.5.0",
+    "jinya/router": "^0.5.0"
+  },
+  "require-dev": {
+    "laravel/pint": "v1.13.10"
+  },
+  "suggest": {
+    "ext-apcu": "*",
+    "ext-zend opcache": "*"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Jinya\\Router\\Extensions\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jinya\\Router\\Extensions\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Imanuel Ulbricht",
+      "email": "imanuel.ulbricht@jinya.de"
+    }
+  ]
+}

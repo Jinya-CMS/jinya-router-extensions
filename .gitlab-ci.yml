@@ -1,0 +1,46 @@
+.install-dependencies:
+  variables:
+    PHP_MEMORY_LIMIT: "2048M"
+  image:
+    name: registry.ulbricht.casa/jinya-cms/jinya-cms-php-base-test-image:latest
+    pull_policy: always
+  before_script:
+    - install-php-extensions xdebug
+    - phive --no-progress install --trust-gpg-keys D615FEE32FD1702834DACC9C8AC0BAA79732DD42,D8406D0D82947747293778314AA394086372C20A,CA7C2C7A30C8E8E1274A847651C67305FFC2E5C0
+    - composer install
+
+stages:
+  - lint
+  - test
+  - deploy
+
+pint:
+  extends:
+    - .install-dependencies
+  stage: lint
+  script:
+    - ./vendor/bin/pint --test
+
+phpstan:
+  extends:
+    - .install-dependencies
+  stage: lint
+  script:
+    - ./tools/phpstan --no-progress analyze ./src ./tests --memory-limit=2048M
+
+phpunit:
+  extends:
+    - .install-dependencies
+  stage: test
+  script:
+    - ./tools/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml
+  artifacts:
+    when: always
+    paths:
+      - report.xml
+    reports:
+      junit:
+        - report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: build/coverage.cobertura.xml
