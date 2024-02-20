@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "518c51adb42f243f07dd84a9093c0566",
+    "content-hash": "5356fb0f6cf024d83635d40e174b18a8",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -173,16 +173,16 @@
         },
         {
             "name": "jinya/database",
-            "version": "0.5.0",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-database.git",
-                "reference": "9e92bb7b552284bc2ae7ab588bf126e4e7b0808c"
+                "reference": "8e52b94c5e8af493e8cb14c05d699357ad2c75af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/9e92bb7b552284bc2ae7ab588bf126e4e7b0808c",
-                "reference": "9e92bb7b552284bc2ae7ab588bf126e4e7b0808c",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/8e52b94c5e8af493e8cb14c05d699357ad2c75af",
+                "reference": "8e52b94c5e8af493e8cb14c05d699357ad2c75af",
                 "shasum": ""
             },
             "require": {
@@ -196,9 +196,9 @@
                 "ext-pdo_mysql": "*",
                 "ext-pdo_pgsql": "*",
                 "ext-pdo_sqlite": "*",
-                "laravel/pint": "v1.13.4",
+                "laravel/pint": "v1.13.11",
                 "roave/security-advisories": "dev-latest",
-                "symfony/filesystem": "v7.0.0"
+                "symfony/filesystem": "v7.0.3"
             },
             "suggest": {
                 "ext-apcu": "*",
@@ -216,9 +216,9 @@
             "notification-url": "https://packagist.org/downloads/",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-database/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.5.0"
+                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.6.0"
             },
-            "time": "2024-01-15T01:27:15+00:00"
+            "time": "2024-02-17T02:06:09+00:00"
         },
         {
             "name": "jinya/router",
@@ -280,16 +280,16 @@
         },
         {
             "name": "laminas/laminas-diactoros",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "4db52734837c60259c9b2d7caf08eef8f7f9b9ac"
+                "reference": "74cfb9a7522ffd2a161d1ebe10db2fc2abb9df45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/4db52734837c60259c9b2d7caf08eef8f7f9b9ac",
-                "reference": "4db52734837c60259c9b2d7caf08eef8f7f9b9ac",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/74cfb9a7522ffd2a161d1ebe10db2fc2abb9df45",
+                "reference": "74cfb9a7522ffd2a161d1ebe10db2fc2abb9df45",
                 "shasum": ""
             },
             "require": {
@@ -309,9 +309,9 @@
                 "http-interop/http-factory-tests": "^0.9.0",
                 "laminas/laminas-coding-standard": "~2.5.0",
                 "php-http/psr7-integration-tests": "^1.3",
-                "phpunit/phpunit": "^9.5.28",
+                "phpunit/phpunit": "^9.6.16",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.15.0"
+                "vimeo/psalm": "^5.22.1"
             },
             "type": "library",
             "extra": {
@@ -361,7 +361,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-10-26T11:01:07+00:00"
+            "time": "2024-02-16T16:06:16+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
