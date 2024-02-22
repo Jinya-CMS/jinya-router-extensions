@@ -29,11 +29,12 @@ phpstan:
     - ./tools/phpstan --no-progress analyze ./src ./tests --memory-limit=2048M
 
 phpunit:
+  stage: test
   extends:
     - .install-dependencies
-  stage: test
   script:
-    - ./tools/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml
+    - sleep 60
+    - ./tools/phpunit --no-progress --log-junit report.xml --configuration phpunit.xml --coverage-cobertura=coverage.cobertura.xml
   artifacts:
     when: always
     paths:
@@ -43,4 +44,77 @@ phpunit:
         - report.xml
       coverage_report:
         coverage_format: cobertura
-        path: build/coverage.cobertura.xml
+        path: coverage.cobertura.xml
+  needs:
+    - pint
+  variables:
+    MYSQL_DATABASE: jinya
+    MYSQL_PASSWORD: jinya
+    MYSQL_ROOT_PASSWORD: jinya
+    MYSQL_USER: jinya
+    POSTGRES_PASSWORD: jinya
+    POSTGRES_USER: jinya
+    POSTGRES_DB: jinya
+  services:
+    - name: library/mysql:8.0
+      alias: mysql-8-0
+      variables:
+        MYSQL_TCP_PORT: 33180
+    - name: library/mysql:8.2
+      alias: mysql-8-2
+      variables:
+        MYSQL_TCP_PORT: 33182
+    - name: library/mariadb:10
+      alias: mariadb-10
+      variables:
+        MYSQL_TCP_PORT: 33210
+    - name: library/mariadb:11
+      alias: mariadb-11
+      variables:
+        MYSQL_TCP_PORT: 33211
+    - name: library/postgres:12-alpine
+      alias: postgres-12
+      variables:
+        PGPORT: 5412
+    - name: library/postgres:13-alpine
+      alias: postgres-13
+      variables:
+        PGPORT: 5413
+    - name: library/postgres:14-alpine
+      alias: postgres-14
+      variables:
+        PGPORT: 5414
+    - name: library/postgres:15-alpine
+      alias: postgres-15
+      variables:
+        PGPORT: 5415
+    - name: library/postgres:16-alpine
+      alias: postgres-16
+      variables:
+        PGPORT: 5416
+  parallel:
+    matrix:
+      # MySQL testing
+      - DATABASE_DSN: 'mysql:host=mysql-8-0;port=33180;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'mysql'
+      - DATABASE_DSN: 'mysql:host=mysql-8-2;port=33182;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'mysql'
+      # MariaDB testing
+      - DATABASE_DSN: 'mysql:host=mariadb-10;port=33210;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'mysql'
+      - DATABASE_DSN: 'mysql:host=mariadb-11;port=33211;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'mysql'
+      # Postgres testing
+      - DATABASE_DSN: 'pgsql:host=postgres-12;port=5412;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'pgsql'
+      - DATABASE_DSN: 'pgsql:host=postgres-13;port=5413;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'pgsql'
+      - DATABASE_DSN: 'pgsql:host=postgres-14;port=5414;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'pgsql'
+      - DATABASE_DSN: 'pgsql:host=postgres-15;port=5415;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'pgsql'
+      - DATABASE_DSN: 'pgsql:host=postgres-16;port=5416;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_TYPE: 'pgsql'
+      # Sqlite testing
+      - DATABASE_DSN: 'sqlite::memory:'
+        DATABASE_TYPE: 'sqlite'

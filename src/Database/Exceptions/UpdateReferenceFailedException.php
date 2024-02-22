@@ -11,7 +11,7 @@ class UpdateReferenceFailedException extends Exception
 {
     public function __construct(
         public readonly ServerRequestInterface $request,
-        public readonly Updatable $entity,
+        public readonly Updatable|null $entity,
         string $message = "",
         ?Throwable $previous = null
     ) {

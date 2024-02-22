@@ -3,15 +3,20 @@
 namespace Jinya\Router\Extensions\Database\Exceptions;
 
 use Exception;
-use Jinya\Database\Creatable;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
-class CreateColumnIsNullException extends Exception
+class InvalidDateFormatException extends Exception
 {
+    /**
+     * @param ServerRequestInterface $request
+     * @param string $date
+     * @param string $message
+     * @param Throwable|null $previous
+     */
     public function __construct(
         public readonly ServerRequestInterface $request,
-        public readonly Creatable $entity,
+        public readonly string $date,
         string $message = "",
         ?Throwable $previous = null
     ) {

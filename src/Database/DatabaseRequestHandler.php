@@ -2,16 +2,19 @@
 
 namespace Jinya\Router\Extensions\Database;
 
+use DateTime;
+use DateTimeInterface;
 use Iterator;
 use Jinya\Database\Creatable;
 use Jinya\Database\Deletable;
-use Jinya\Database\Entity;
+use Jinya\Database\Exception\NotNullViolationException;
 use Jinya\Database\Findable;
 use Jinya\Database\Updatable;
 use Jinya\Router\Extensions\Database\Exceptions\CreateColumnIsNullException;
 use Jinya\Router\Extensions\Database\Exceptions\CreateReferenceFailedException;
 use Jinya\Router\Extensions\Database\Exceptions\CreateUniqueFailedException;
 use Jinya\Router\Extensions\Database\Exceptions\DeleteReferencedException;
+use Jinya\Router\Extensions\Database\Exceptions\InvalidDateFormatException;
 use Jinya\Router\Extensions\Database\Exceptions\MissingFieldsException;
 use Jinya\Router\Extensions\Database\Exceptions\NotFoundException;
 use Jinya\Router\Extensions\Database\Exceptions\UpdateColumnIsNullException;
@@ -19,26 +22,31 @@ use Jinya\Router\Extensions\Database\Exceptions\UpdateReferenceFailedException;
 use Jinya\Router\Extensions\Database\Exceptions\UpdateUniqueFailedException;
 use JsonException;
 use JsonSerializable;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Stream;
-use Nyholm\Psr7Server\ServerRequestCreator;
 use PDOException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Throwable;
 
+/**
+ * @internal
+ */
 class DatabaseRequestHandler
 {
+    /**
+     * @param object|array<array-key, mixed> $data
+     * @throws JsonException
+     */
     private function encodeBody(
         ServerRequestInterface $request,
         ResponseInterface $response,
-        mixed $data
+        object|array $data
     ): ResponseInterface {
         if ($data instanceof JsonSerializable) {
             $body = $data->jsonSerialize();
-        } elseif (method_exists($data, '__serialize')) {
+        } elseif (is_object($data) && method_exists($data, '__serialize')) {
             $body = $data->__serialize();
         } else {
             $body = $data;
@@ -57,7 +65,7 @@ class DatabaseRequestHandler
      */
     private function handleFindByIdResult(
         ServerRequestInterface $request,
-        mixed $item
+        object|null $item
     ): ResponseInterface {
         if ($item === null) {
             throw new NotFoundException($request, 'Entity not found');
@@ -67,7 +75,7 @@ class DatabaseRequestHandler
     }
 
     /**
-     * @param Iterator<Entity> $iterator
+     * @param Iterator<Findable> $iterator
      * @throws JsonException
      */
     private function handleFindAllResult(
@@ -92,27 +100,28 @@ class DatabaseRequestHandler
         return new Response(204);
     }
 
-    private function handleUpdateResult($item): ResponseInterface
+    private function handleUpdateResult(): ResponseInterface
     {
         return new Response(204);
     }
 
-    private function handleCreateResult($item): ResponseInterface
+    /**
+     * @param object|array<array-key, mixed> $item
+     * @throws JsonException
+     */
+    private function handleCreateResult(ServerRequestInterface $request, object|array $item): ResponseInterface
     {
-        return new Response(
-            201,
-            ['Content-Type' => 'application/json'],
-            json_encode($item, JSON_THROW_ON_ERROR)
-        );
+        return $this->encodeBody($request, new Response(201), $item);
     }
 
     /**
+     * @param string[] $fields
      * @throws MissingFieldsException
      */
     private function checkRequiredFields(ServerRequestInterface $request, array $fields): void
     {
         $body = $request->getParsedBody();
-        if (!$body) {
+        if (!$body || !is_array($body)) {
             throw new MissingFieldsException(
                 $request,
                 $fields,
@@ -136,40 +145,12 @@ class DatabaseRequestHandler
     }
 
     /**
-     * @throws JsonException
+     * @param class-string<Findable> $entityClass
      */
-    private function getRequest(bool $parseBody = false): ServerRequestInterface
-    {
-        $psr17Factory = new Psr17Factory();
-
-        $creator = new ServerRequestCreator(
-            $psr17Factory, // ServerRequestFactory
-            $psr17Factory, // UriFactory
-            $psr17Factory, // UploadedFileFactory
-            $psr17Factory  // StreamFactory
-        );
-
-        $request = $creator->fromGlobals();
-        $contentTypeHeader = $request->getHeader('Content-Type');
-        if (!empty($contentTypeHeader) && $parseBody) {
-            $contentType = $contentTypeHeader[0];
-            if ($contentType === 'application/json') {
-                $request = $request->withParsedBody(
-                    json_decode($request->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)
-                );
-            }
-        }
-
-        return $request;
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function handleGetAllRequest(string $entityClass): ResponseInterface
-    {
-        $request = $this->getRequest();
-
+    public function handleGetAllRequest(
+        ServerRequestInterface $request,
+        string $entityClass
+    ): ResponseInterface {
         if (!is_subclass_of($entityClass, Findable::class)) {
             return Handlers::handleInternalServerError(
                 $request,
@@ -197,22 +178,21 @@ class DatabaseRequestHandler
             $totalCount = $entityClass::countAll();
 
             return $this->handleFindAllResult($request, $result, $offset, $totalCount);
-        } catch (NotFoundException $exception) {
-            return Handlers::handleNotFound($request, $exception);
-        } catch (JsonException $exception) {
-            return Handlers::handleJsonError($request, $exception);
+            // @codeCoverageIgnoreStart
         } catch (Throwable $exception) {
             return Handlers::handleInternalServerError($request, $exception);
+            // @codeCoverageIgnoreEnd
         }
     }
 
     /**
-     * @throws JsonException
+     * @param class-string<Findable> $entityClass
      */
-    public function handleGetByIdRequest(string $entityClass, int|string $id): ResponseInterface
-    {
-        $request = $this->getRequest();
-
+    public function handleGetByIdRequest(
+        ServerRequestInterface $request,
+        string $entityClass,
+        int|string $id
+    ): ResponseInterface {
         if (!is_subclass_of($entityClass, Findable::class)) {
             return Handlers::handleInternalServerError(
                 $request,
@@ -221,25 +201,27 @@ class DatabaseRequestHandler
         }
 
         try {
+            /** @var Findable|null $result */
             $result = $entityClass::findById($id);
 
             return $this->handleFindByIdResult($request, $result);
         } catch (NotFoundException $exception) {
             return Handlers::handleNotFound($request, $exception);
-        } catch (JsonException $exception) {
-            return Handlers::handleJsonError($request, $exception);
+            // @codeCoverageIgnoreStart
         } catch (Throwable $exception) {
             return Handlers::handleInternalServerError($request, $exception);
+            // @codeCoverageIgnoreEnd
         }
     }
 
     /**
-     * @throws JsonException
+     * @param class-string<Findable&Deletable> $entityClass
      */
-    public function handleDeleteRequest(string $entityClass, int|string $id): ResponseInterface
-    {
-        $request = $this->getRequest();
-
+    public function handleDeleteRequest(
+        ServerRequestInterface $request,
+        string $entityClass,
+        int|string $id
+    ): ResponseInterface {
         if (!is_subclass_of($entityClass, Findable::class)) {
             return Handlers::handleInternalServerError(
                 $request,
@@ -254,6 +236,7 @@ class DatabaseRequestHandler
         }
 
         try {
+            /** @var (Findable&Deletable)|null $entity */
             $entity = $entityClass::findById($id);
             if ($entity === null) {
                 throw new NotFoundException($request, "The entity was not found");
@@ -264,92 +247,105 @@ class DatabaseRequestHandler
             return $this->handleDeleteResult();
         } catch (NotFoundException $exception) {
             return Handlers::handleNotFound($request, $exception);
-        } catch (JsonException $exception) {
-            return Handlers::handleJsonError($request, $exception);
         } catch (PDOException $exception) {
-            $errorInfo = $exception->errorInfo;
-            if ($errorInfo[0] === '23000') {
+            $errorInfo = $exception->errorInfo ?? [''];
+            if ($errorInfo[0] === '23503' || $errorInfo[0] === '23000') {
                 return Handlers::handleDeleteReferencedError(
                     $request,
                     new DeleteReferencedException($request, $entity ?? null, "The entity is referenced")
                 );
             }
 
+            // @codeCoverageIgnoreStart
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
             return Handlers::handleInternalServerError($request, $exception);
+            // @codeCoverageIgnoreEnd
         }
     }
 
     /**
-     * @param string[] $requiredFields
-     * @throws JsonException
+     * @param class-string<Creatable> $entityClass
+     * @param array<string, array{default: mixed|null, required: bool|null, type: string}> $fields
      */
-    public function handleCreateRequest(string $entityClass, array $requiredFields): ResponseInterface
-    {
-        $request = $this->getRequest(true);
-
+    public function handleCreateRequest(
+        ServerRequestInterface $request,
+        string $entityClass,
+        array $fields
+    ): ResponseInterface {
         if (!is_subclass_of($entityClass, Creatable::class)) {
             return Handlers::handleInternalServerError(
                 $request,
-                new RuntimeException("Entity does not implement Findable interface")
+                new RuntimeException("Entity does not implement Creatable interface")
             );
         }
 
         $entity = new $entityClass();
         try {
-            $this->checkRequiredFields($request, $requiredFields);
-            $body = $request->getParsedBody();
-            foreach ($body as $key => $value) {
-                $entity->$key = $value;
+            $requiredFields = [];
+            foreach ($fields as $name => $field) {
+                if ($field['required'] ?? false) {
+                    $requiredFields[] = $name;
+                }
             }
+
+            $this->checkRequiredFields($request, $requiredFields);
+            $this->fillEntityFields($fields, $request, $entity);
 
             $entity->create();
 
-            return $this->handleCreateResult($entity);
+            return $this->handleCreateResult($request, $entity);
         } catch (MissingFieldsException $exception) {
             return Handlers::handleMissingFieldsError($request, $exception);
-        } catch (JsonException $exception) {
-            return Handlers::handleJsonError($request, $exception);
+        } catch (InvalidDateFormatException $exception) {
+            return Handlers::handleInvalidDateFormatError($request, $exception);
+        } catch (NotNullViolationException $exception) {
+            return Handlers::handleCreateColumnIsNullError(
+                $request,
+                new CreateColumnIsNullException($request, $entity, $exception->getMessage(), $exception)
+            );
         } catch (PDOException $exception) {
-            $errorInfo = $exception->errorInfo;
-            if ($errorInfo[0] === '23004'||($errorInfo[0] === '23000' && $errorInfo[1] === '1022')) {
-                // MySQL handling
+            $errorInfo = $exception->errorInfo ?? ['', ''];
+            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1062)) {
                 return Handlers::handleCreateUniqueFailedError(
                     $request,
                     new CreateUniqueFailedException($request, $entity, $exception->getMessage(), $exception)
                 );
             }
-            
-            if ($errorInfo[0] === '23002' || ($errorInfo[0] === '23000' && $errorInfo[1] === '1048')) {
-                return Handlers::handleCreateColumnIsNullError(
-                    $request,
-                    new CreateColumnIsNullException($request, $entity, $exception->getMessage(), $exception)
-                );
-            } 
-            
-            if ($errorInfo[0] === '23003'||($errorInfo[0] === '23000' && $errorInfo[1] === '1062')) {
+
+            if ($errorInfo[0] === '23503' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1452)) {
                 return Handlers::handleCreateReferenceFailedError(
                     $request,
                     new CreateReferenceFailedException($request, $entity, $exception->getMessage(), $exception)
                 );
             }
 
+            // @codeCoverageIgnoreStart
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
             return Handlers::handleInternalServerError($request, $exception);
+            // @codeCoverageIgnoreEnd
         }
     }
 
     /**
      * @param class-string<Updatable&Findable> $entityClass
-     * @throws JsonException
+     * @param array<string, array{type: string}> $fields
      */
-    public function handleUpdateRequest(string $entityClass, int|string $id): ResponseInterface
-    {
-        $request = $this->getRequest(true);
+    public function handleUpdateRequest(
+        ServerRequestInterface $request,
+        string $entityClass,
+        array $fields,
+        int|string $id
+    ): ResponseInterface {
+        if (!is_subclass_of($entityClass, Updatable::class)) {
+            return Handlers::handleInternalServerError(
+                $request,
+                new RuntimeException("Entity does not implement Updatable interface")
+            );
+        }
 
-        if (!is_subclass_of($entityClass, Creatable::class)) {
+        if (!is_subclass_of($entityClass, Findable::class)) {
             return Handlers::handleInternalServerError(
                 $request,
                 new RuntimeException("Entity does not implement Findable interface")
@@ -357,36 +353,28 @@ class DatabaseRequestHandler
         }
 
         try {
+            /** @var Findable&Updatable $entity */
             $entity = $entityClass::findById($id);
-            $body = $request->getParsedBody();
-            foreach ($body as $key => $value) {
-                $entity->$key = $value;
-            }
+            $this->fillEntityFields($fields, $request, $entity);
 
-            $entity->update();
-
-            return $this->handleUpdateResult($entity);
+            return $this->handleUpdateResult();
         } catch (MissingFieldsException $exception) {
             return Handlers::handleMissingFieldsError($request, $exception);
-        } catch (JsonException $exception) {
-            return Handlers::handleJsonError($request, $exception);
+        } catch (NotNullViolationException $exception) {
+            return Handlers::handleUpdateColumnIsNullError(
+                $request,
+                new UpdateColumnIsNullException($request, $entity ?? null, $exception->getMessage(), $exception)
+            );
         } catch (PDOException $exception) {
-            $errorInfo = $exception->errorInfo;
-            if ($errorInfo[0] === '23004'||($errorInfo[0] === '23000' && $errorInfo[1] === '1022')) {
+            $errorInfo = $exception->errorInfo ?? ['', ''];
+            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1022)) {
                 return Handlers::handleUpdateUniqueFailedError(
                     $request,
                     new UpdateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
                 );
             }
 
-            if ($errorInfo[0] === '23002' || ($errorInfo[0] === '23000' && $errorInfo[1] === '1048')) {
-                return Handlers::handleUpdateColumnIsNullError(
-                    $request,
-                    new UpdateColumnIsNullException($request, $entity ?? null, $exception->getMessage(), $exception)
-                );
-            }
-
-            if ($errorInfo[0] === '23003'||($errorInfo[0] === '23000' && $errorInfo[1] === '1062')) {
+            if ($errorInfo[0] === '23503' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1062)) {
                 return Handlers::handleUpdateReferenceFailedError(
                     $request,
                     new UpdateReferenceFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
@@ -396,6 +384,38 @@ class DatabaseRequestHandler
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
             return Handlers::handleInternalServerError($request, $exception);
+        }
+    }
+
+    /**
+     * @param array<string, array{default: mixed|null, required: bool|null, type: string}> $fields
+     * @throws InvalidDateFormatException
+     */
+    public function fillEntityFields(array $fields, ServerRequestInterface $request, Creatable|Updatable $entity): void
+    {
+        $fieldNames = array_keys($fields);
+        /** @var array<string, mixed> $body */
+        $body = $request->getParsedBody();
+        foreach ($fieldNames as $field) {
+            if (property_exists($entity, $field)) {
+                if (array_key_exists($field, $body)) {
+                    $value = $body[$field];
+                    if ($fields[$field]['type'] == DateTime::class) {
+                        $entity->$field = DateTime::createFromFormat(
+                            DateTimeInterface::W3C,
+                            $body[$field]
+                        ) ?: throw new InvalidDateFormatException(
+                            $request,
+                            $body[$field],
+                            'The date has an invalid format'
+                        );
+                    } else {
+                        $entity->$field = $value;
+                    }
+                } elseif ($entity instanceof Creatable && ($fields[$field]['required'] ?? false)) {
+                    $entity->$field = $fields[$field]['default'];
+                }
+            }
         }
     }
 }

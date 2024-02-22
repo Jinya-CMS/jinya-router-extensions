@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  jinya-router-extensions:
+    image: registry.ulbricht.casa/jinya-cms/jinya-cms-php-base-test-image:cli
+    volumes:
+      - .:/var/www/html
+  jinya-router-extensions-mariadb:
+    image: library/mariadb:latest
+    environment:
+      MARIADB_DATABASE: jinya
+      MARIADB_PASSWORD: jinya
+      MARIADB_ROOT_PASSWORD: jinya
+      MARIADB_USER: jinya
+  jinya-router-extensions-postgres:
+    image: library/postgres:latest
+    environment:
+      POSTGRES_PASSWORD: jinya
+      POSTGRES_USER: jinya
+      POSTGRES_DB: jinya

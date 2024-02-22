@@ -5,11 +5,12 @@
     "php": "^8.2",
     "ext-pdo": "*",
     "ext-simplexml": "*",
-    "jinya/database": "^0.6.0",
+    "jinya/database": "^0.7.0",
     "jinya/router": "^0.5.0"
   },
   "require-dev": {
-    "laravel/pint": "v1.13.10"
+    "laravel/pint": "v1.13.10",
+    "symfony/filesystem": "v7.0.3"
   },
   "suggest": {
     "ext-zend opcache": "*"
@@ -21,6 +22,9 @@
     }
   },
   "autoload-dev": {
+    "files": [
+      "tests/Database/database_utils.php"
+    ],
     "psr-4": {
       "Jinya\\Router\\Extensions\\": "tests/"
     }

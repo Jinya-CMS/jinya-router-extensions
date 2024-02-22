@@ -3,13 +3,8 @@
 namespace Jinya\Router\Extensions;
 
 use Jinya\Router\Extensions\Database\ErrorHandler;
-use Jinya\Router\Extensions\Database\Exceptions\NotFoundException;
 use Jinya\Router\Extensions\Database\Handlers;
-use JsonException;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
-use Throwable;
 
 class JinyaDatabaseExtension extends Extension
 {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="phpunit" version="^11.0.3" installed="11.0.3" location="./tools/phpunit" copy="false"/>
-  <phar name="phpstan" version="^1.10.58" installed="1.10.58" location="./tools/phpstan" copy="false"/>
+  <phar name="phpunit" version="^11.0.3" installed="11.0.3" location="./tools/phpunit" copy="true"/>
+  <phar name="phpstan" version="^1.10.58" installed="1.10.58" location="./tools/phpstan" copy="true"/>
 </phive>
