@@ -7,7 +7,6 @@ use Jinya\Router\Extensions\Database\Classes\JustFindable;
 use Jinya\Router\Extensions\Database\Classes\NonFindable;
 use Jinya\Router\Extensions\Database\Classes\ReferencedTestEntity;
 use Jinya\Router\Extensions\Database\Classes\TestEntity;
-use Jinya\Router\Extensions\Database\Classes\TestErrorHandler;
 use Jinya\Router\Extensions\Database\Extensions\MigratingTestCase;
 use Nyholm\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,7 +15,7 @@ class DatabaseRequestHandlerTest extends MigratingTestCase
 {
     private function getErrorHandler(): ErrorHandler
     {
-        return new TestErrorHandler();
+        return new StatusErrorHandler();
     }
 
     private function getDummyRequest(string $method, string $uri): ServerRequestInterface
@@ -127,12 +126,38 @@ class DatabaseRequestHandlerTest extends MigratingTestCase
         self::assertEquals(201, $response->getStatusCode());
     }
 
-    public function testHandleCreateRequestMissingFields(): void
+    public function testHandleCreateRequestMissingFieldsAll(): void
     {
         Handlers::$errorHandler = $this->getErrorHandler();
 
         $handler = new DatabaseRequestHandler();
         $request = $this->getDummyRequest('POST', '')
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleCreateRequest($request, TestEntity::class, [
+            'name' => [
+                'required' => true,
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'required' => true,
+                'type' => 'string',
+            ],
+            'date' => [
+                'required' => true,
+                'type' => DateTime::class,
+            ],
+        ]);
+        self::assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testHandleCreateRequestMissingFieldsSome(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = ['name' => 'Test 25', 'displayName' => 'Test 25 2'];
+        $request = $this->getDummyRequest('POST', '')
+            ->withParsedBody($body)
             ->withAddedHeader('Content-Type', 'application/json');
         $response = $handler->handleCreateRequest($request, TestEntity::class, [
             'name' => [
@@ -208,7 +233,7 @@ class DatabaseRequestHandlerTest extends MigratingTestCase
         Handlers::$errorHandler = $this->getErrorHandler();
 
         $handler = new DatabaseRequestHandler();
-        $body = ['name' => 'Test 52', 'displayName' => 'Test 25 2'];
+        $body = ['name' => 'Test 52', 'displayName' => null, 'date' => (new DateTime())->format(DATE_ATOM)];
         $request = $this->getDummyRequest('POST', '')
             ->withParsedBody($body)
             ->withAddedHeader('Content-Type', 'application/json');
@@ -396,7 +421,7 @@ class DatabaseRequestHandlerTest extends MigratingTestCase
         Handlers::$errorHandler = $this->getErrorHandler();
 
         $handler = new DatabaseRequestHandler();
-        $body = ['name' => 'Test 52', 'displayName' => 'Test 25 2', 'date' => null];
+        $body = ['name' => 'Test 52', 'displayName' => null, 'date' => (new DateTime())->format(DATE_ATOM)];
         $request = $this->getDummyRequest('PUT', '')
             ->withParsedBody($body)
             ->withAddedHeader('Content-Type', 'application/json');
@@ -443,6 +468,37 @@ class DatabaseRequestHandlerTest extends MigratingTestCase
             ],
         ], 1);
         self::assertEquals(409, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateNotFindable(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = [
+            'name' => 'Test 52',
+            'displayName' => 'Test 25 2',
+            'date' => (new DateTime())->format(DATE_ATOM),
+            'testEntityId' => -1
+        ];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, NonFindable::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+            'testEntityId' => [
+                'type' => 'int',
+            ],
+        ], 1);
+        self::assertEquals(500, $response->getStatusCode());
     }
 
     public function testHandleUpdateNotUpdatable(): void

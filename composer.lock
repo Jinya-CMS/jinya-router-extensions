@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bda4ee1da01320481f17fe43c090a589",
+    "content-hash": "e2115a92ed167f6137495e3c182376dd",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -222,16 +222,16 @@
         },
         {
             "name": "jinya/router",
-            "version": "0.5.0",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-router.git",
-                "reference": "76079103a070306c3631ffa335cca701aa04fb70"
+                "reference": "ab3fbb9b71074c46f9e43b570b0da30b287ac0e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/76079103a070306c3631ffa335cca701aa04fb70",
-                "reference": "76079103a070306c3631ffa335cca701aa04fb70",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/ab3fbb9b71074c46f9e43b570b0da30b287ac0e4",
+                "reference": "ab3fbb9b71074c46f9e43b570b0da30b287ac0e4",
                 "shasum": ""
             },
             "require": {
@@ -243,12 +243,12 @@
                 "nikic/fast-route": "^v1.3.0",
                 "nyholm/psr7": "^1.8.0",
                 "nyholm/psr7-server": "^1.0.2",
-                "php": ">=8.1",
+                "php": ">=8.2",
                 "psr/http-server-middleware": "^1.0.2"
             },
             "require-dev": {
                 "ext-xdebug": "*",
-                "laravel/pint": "v1.13.10",
+                "laravel/pint": "v1.14.0",
                 "roave/security-advisories": "dev-latest"
             },
             "type": "library",
@@ -274,9 +274,9 @@
             "description": "A simple attribute-based routing library",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-router/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.5.0"
+                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.6.0"
             },
-            "time": "2024-01-23T18:34:52+00:00"
+            "time": "2024-03-08T23:03:07+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",

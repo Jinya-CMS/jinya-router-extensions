@@ -1,8 +1,7 @@
 <?php
 
-namespace Jinya\Router\Extensions\Database\Classes;
+namespace Jinya\Router\Extensions\Database;
 
-use Jinya\Router\Extensions\Database\ErrorHandler;
 use Jinya\Router\Extensions\Database\Exceptions\CreateColumnIsNullException;
 use Jinya\Router\Extensions\Database\Exceptions\CreateReferenceFailedException;
 use Jinya\Router\Extensions\Database\Exceptions\CreateUniqueFailedException;
@@ -18,8 +17,11 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
-class TestErrorHandler implements ErrorHandler
+class StatusErrorHandler implements ErrorHandler
 {
+    /**
+     * @inheritDoc
+     */
     public function handleNotFound(
         ServerRequestInterface $request,
         NotFoundException $notFoundException
@@ -27,6 +29,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleInternalServerError(
         ServerRequestInterface $request,
         Throwable $throwable
@@ -34,13 +39,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
-    public function handleJsonError(
-        ServerRequestInterface $request,
-        JsonException $jsonException
-    ): ResponseInterface|false {
-        return false;
-    }
-
+    /**
+     * @inheritDoc
+     */
     public function handleDeleteReferencedError(
         ServerRequestInterface $request,
         DeleteReferencedException $deleteReferencedException
@@ -48,6 +49,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleMissingFieldsError(
         ServerRequestInterface $request,
         MissingFieldsException $missingFieldsException
@@ -55,6 +59,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleCreateReferenceFailedError(
         ServerRequestInterface $request,
         CreateReferenceFailedException $createReferenceFailedException
@@ -62,6 +69,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleCreateColumnIsNullError(
         ServerRequestInterface $request,
         CreateColumnIsNullException $createColumnIsNullException
@@ -69,6 +79,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleCreateUniqueFailedError(
         ServerRequestInterface $request,
         CreateUniqueFailedException $createUniqueFailedException
@@ -76,6 +89,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleUpdateReferenceFailedError(
         ServerRequestInterface $request,
         UpdateReferenceFailedException $updateReferenceFailedException
@@ -83,6 +99,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleUpdateColumnIsNullError(
         ServerRequestInterface $request,
         UpdateColumnIsNullException $updateColumnIsNullException
@@ -90,6 +109,9 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function handleUpdateUniqueFailedError(
         ServerRequestInterface $request,
         UpdateUniqueFailedException $updateUniqueFailedException
@@ -97,7 +119,10 @@ class TestErrorHandler implements ErrorHandler
         return false;
     }
 
-    public static function handleInvalidDateFormatError(
+    /**
+     * @inheritDoc
+     */
+    public function handleInvalidDateFormatError(
         ServerRequestInterface $request,
         InvalidDateFormatException $invalidDateFormatException
     ): ResponseInterface|false {

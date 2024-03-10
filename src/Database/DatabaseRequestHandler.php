@@ -29,6 +29,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use Throwable;
+use TypeError;
 
 /**
  * @internal
@@ -47,7 +48,9 @@ class DatabaseRequestHandler
         if ($data instanceof JsonSerializable) {
             $body = $data->jsonSerialize();
         } elseif (is_object($data) && method_exists($data, '__serialize')) {
+            // @codeCoverageIgnoreStart
             $body = $data->__serialize();
+            // @codeCoverageIgnoreEnd
         } else {
             $body = $data;
         }
@@ -338,17 +341,17 @@ class DatabaseRequestHandler
         array $fields,
         int|string $id
     ): ResponseInterface {
-        if (!is_subclass_of($entityClass, Updatable::class)) {
-            return Handlers::handleInternalServerError(
-                $request,
-                new RuntimeException("Entity does not implement Updatable interface")
-            );
-        }
-
         if (!is_subclass_of($entityClass, Findable::class)) {
             return Handlers::handleInternalServerError(
                 $request,
                 new RuntimeException("Entity does not implement Findable interface")
+            );
+        }
+
+        if (!is_subclass_of($entityClass, Updatable::class)) {
+            return Handlers::handleInternalServerError(
+                $request,
+                new RuntimeException("Entity does not implement Updatable interface")
             );
         }
 
@@ -357,9 +360,11 @@ class DatabaseRequestHandler
             $entity = $entityClass::findById($id);
             $this->fillEntityFields($fields, $request, $entity);
 
+            $entity->update();
+
             return $this->handleUpdateResult();
-        } catch (MissingFieldsException $exception) {
-            return Handlers::handleMissingFieldsError($request, $exception);
+        } catch (InvalidDateFormatException $exception) {
+            return Handlers::handleInvalidDateFormatError($request, $exception);
         } catch (NotNullViolationException $exception) {
             return Handlers::handleUpdateColumnIsNullError(
                 $request,
@@ -367,23 +372,25 @@ class DatabaseRequestHandler
             );
         } catch (PDOException $exception) {
             $errorInfo = $exception->errorInfo ?? ['', ''];
-            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1022)) {
+            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1062)) {
                 return Handlers::handleUpdateUniqueFailedError(
                     $request,
                     new UpdateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
                 );
             }
 
-            if ($errorInfo[0] === '23503' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1062)) {
+            if ($errorInfo[0] === '23503' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1452)) {
                 return Handlers::handleUpdateReferenceFailedError(
                     $request,
                     new UpdateReferenceFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
                 );
             }
 
+            // @codeCoverageIgnoreStart
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
             return Handlers::handleInternalServerError($request, $exception);
+            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -393,28 +400,36 @@ class DatabaseRequestHandler
      */
     public function fillEntityFields(array $fields, ServerRequestInterface $request, Creatable|Updatable $entity): void
     {
-        $fieldNames = array_keys($fields);
-        /** @var array<string, mixed> $body */
-        $body = $request->getParsedBody();
-        foreach ($fieldNames as $field) {
-            if (property_exists($entity, $field)) {
-                if (array_key_exists($field, $body)) {
-                    $value = $body[$field];
-                    if ($fields[$field]['type'] == DateTime::class) {
-                        $entity->$field = DateTime::createFromFormat(
-                            DateTimeInterface::W3C,
-                            $body[$field]
-                        ) ?: throw new InvalidDateFormatException(
-                            $request,
-                            $body[$field],
-                            'The date has an invalid format'
-                        );
-                    } else {
-                        $entity->$field = $value;
+        try {
+            $fieldNames = array_keys($fields);
+            /** @var array<string, mixed> $body */
+            $body = $request->getParsedBody();
+            $value = null;
+            $field = null;
+            foreach ($fieldNames as $field) {
+                if (property_exists($entity, $field)) {
+                    if (array_key_exists($field, $body)) {
+                        $value = $body[$field];
+                        if ($fields[$field]['type'] === DateTime::class) {
+                            $entity->$field = DateTime::createFromFormat(
+                                DateTimeInterface::W3C,
+                                $body[$field]
+                            ) ?: throw new InvalidDateFormatException(
+                                $request,
+                                $body[$field],
+                                'The date has an invalid format'
+                            );
+                        } else {
+                            $entity->$field = $value;
+                        }
+                    } elseif ($entity instanceof Creatable && $fields[$field]['default']) {
+                        $entity->$field = $fields[$field]['default'];
                     }
-                } elseif ($entity instanceof Creatable && ($fields[$field]['required'] ?? false)) {
-                    $entity->$field = $fields[$field]['default'];
                 }
+            }
+        } catch (TypeError $error) {
+            if ($value === null) {
+                throw new NotNullViolationException([$field]);
             }
         }
     }

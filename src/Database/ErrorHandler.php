@@ -29,11 +29,6 @@ interface ErrorHandler
         Throwable $throwable
     ): ResponseInterface|false;
 
-    public function handleJsonError(
-        ServerRequestInterface $request,
-        JsonException $jsonException
-    ): ResponseInterface|false;
-
     public function handleDeleteReferencedError(
         ServerRequestInterface $request,
         DeleteReferencedException $deleteReferencedException
@@ -74,7 +69,7 @@ interface ErrorHandler
         UpdateUniqueFailedException $updateUniqueFailedException
     ): ResponseInterface|false;
 
-    public static function handleInvalidDateFormatError(
+    public function handleInvalidDateFormatError(
         ServerRequestInterface $request,
         InvalidDateFormatException $invalidDateFormatException
     ): ResponseInterface|false;

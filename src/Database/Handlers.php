@@ -39,13 +39,6 @@ abstract class Handlers
         return self::$errorHandler->handleInternalServerError($request, $throwable) ?: new Response(500);
     }
 
-    public static function handleJsonError(
-        ServerRequestInterface $request,
-        JsonException $jsonException
-    ): ResponseInterface {
-        return self::$errorHandler->handleJsonError($request, $jsonException) ?: new Response(400);
-    }
-
     public static function handleDeleteReferencedError(
         ServerRequestInterface $request,
         DeleteReferencedException $deleteReferencedException
