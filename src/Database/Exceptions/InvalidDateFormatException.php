@@ -10,13 +10,13 @@ class InvalidDateFormatException extends Exception
 {
     /**
      * @param ServerRequestInterface $request
-     * @param string $date
+     * @param string|null $date
      * @param string $message
      * @param Throwable|null $previous
      */
     public function __construct(
         public readonly ServerRequestInterface $request,
-        public readonly string $date,
+        public readonly string|null $date,
         string $message = "",
         ?Throwable $previous = null
     ) {
