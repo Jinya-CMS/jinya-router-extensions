@@ -301,6 +301,179 @@ class DatabaseRequestHandlerTest extends MigratingTestCase
 
     public function testHandleUpdateRequest(): void
     {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = ['name' => 'Test 25', 'displayName' => 'Test 25 2', 'date' => (new DateTime())->format(DATE_ATOM)];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, TestEntity::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+        ], 1);
+        self::assertEquals(204, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateRequestNotAllValues(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = ['name' => 'Test 25', 'displayName' => 'Test 25 2'];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, TestEntity::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+        ], 1);
+        self::assertEquals(204, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateDateWrongFormat(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = ['name' => 'Test 25', 'displayName' => 'Test 25 2', 'date' => (new DateTime())->format(DATE_COOKIE)];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, TestEntity::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+        ], 1);
+        self::assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateUniqueFailed(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = ['name' => 'Test 12', 'displayName' => 'Test 25 2', 'date' => (new DateTime())->format(DATE_ATOM)];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, TestEntity::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+        ], 1);
+        self::assertEquals(409, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateNotNullFailed(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = ['name' => 'Test 52', 'displayName' => 'Test 25 2', 'date' => null];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, TestEntity::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+        ], 1);
+        self::assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateReferenceFailed(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = [
+            'name' => 'Test 52',
+            'displayName' => 'Test 25 2',
+            'date' => (new DateTime())->format(DATE_ATOM),
+            'testEntityId' => -1
+        ];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, ReferencedTestEntity::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+            'testEntityId' => [
+                'type' => 'int',
+            ],
+        ], 1);
+        self::assertEquals(409, $response->getStatusCode());
+    }
+
+    public function testHandleUpdateNotUpdatable(): void
+    {
+        Handlers::$errorHandler = $this->getErrorHandler();
+
+        $handler = new DatabaseRequestHandler();
+        $body = [
+            'name' => 'Test 52',
+            'displayName' => 'Test 25 2',
+            'date' => (new DateTime())->format(DATE_ATOM),
+            'testEntityId' => -1
+        ];
+        $request = $this->getDummyRequest('PUT', '')
+            ->withParsedBody($body)
+            ->withAddedHeader('Content-Type', 'application/json');
+        $response = $handler->handleUpdateRequest($request, JustFindable::class, [
+            'name' => [
+                'type' => 'string',
+            ],
+            'displayName' => [
+                'type' => 'string',
+            ],
+            'date' => [
+                'type' => DateTime::class,
+            ],
+            'testEntityId' => [
+                'type' => 'int',
+            ],
+        ], 1);
+        self::assertEquals(500, $response->getStatusCode());
     }
 
     public function testHandleGetByIdRequest(): void
