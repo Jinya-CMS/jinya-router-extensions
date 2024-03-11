@@ -4,11 +4,7 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Message\ServerRequestInterface;
 
-function handle_request(string $class): \Psr\Http\Message\ResponseInterface
-{
-    return new \Nyholm\Psr7\Response();
-}
-
+// @codeCoverageIgnoreStart
 function get_request(bool $parseBody = false): ServerRequestInterface
 {
     $psr17Factory = new Psr17Factory();
@@ -33,3 +29,4 @@ function get_request(bool $parseBody = false): ServerRequestInterface
 
     return $request;
 }
+// @codeCoverageIgnoreEnd

@@ -26,8 +26,11 @@ readonly class ApiRoute
         public string|null $path = null,
         MiddlewareInterface ...$middleware
     ) {
+        $middlewares = [];
         foreach ($middleware as $item) {
-            $this->middlewares[] = $item;
+            $middlewares[] = $item;
         }
+
+        $this->middlewares = $middlewares;
     }
 }

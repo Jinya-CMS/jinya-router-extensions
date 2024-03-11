@@ -4,7 +4,7 @@ namespace Jinya\Router\Extensions\Database\Extensions;
 
 use Jinya\Database\Migration\AbstractMigration;
 use Jinya\Database\Migration\Migrator;
-use Jinya\Router\Extensions\Database\Classes\ReferencedTestEntity;
+use Jinya\Router\Extensions\Database\Migrations\ApiTestEntityMigration;
 use Jinya\Router\Extensions\Database\Migrations\ReferencedTestEntityMigration;
 use Jinya\Router\Extensions\Database\Migrations\TestEntityMigration;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +19,7 @@ abstract class MigratingTestCase extends TestCase
         return [
             new TestEntityMigration(),
             new ReferencedTestEntityMigration(),
+            new ApiTestEntityMigration(),
         ];
     }
 

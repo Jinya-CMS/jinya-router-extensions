@@ -12,7 +12,6 @@ use Jinya\Router\Extensions\Database\Exceptions\NotFoundException;
 use Jinya\Router\Extensions\Database\Exceptions\UpdateColumnIsNullException;
 use Jinya\Router\Extensions\Database\Exceptions\UpdateReferenceFailedException;
 use Jinya\Router\Extensions\Database\Exceptions\UpdateUniqueFailedException;
-use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;

@@ -2,8 +2,6 @@
 
 namespace Jinya\Router\Extensions\Database\Attributes;
 
-use Jinya\Database\Deletable;
-
 /**
  * @internal
  */

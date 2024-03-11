@@ -8,7 +8,6 @@ use RuntimeException;
 
 class JustFindable implements Findable
 {
-
     public static function findAll(string $orderBy = 'id ASC'): Iterator
     {
         throw new RuntimeException();

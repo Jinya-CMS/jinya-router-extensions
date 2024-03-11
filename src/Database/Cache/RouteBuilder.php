@@ -63,10 +63,10 @@ PHP;
                     $routes .= <<<PHP
 \$r->addRoute('GET', '$path', ['fn', function() {
     return \$handler->handleGetAllRequest(get_request(false), $entityClass);
-}, $middlewares]);
+}, [$middlewares]]);
 \$r->addRoute('GET', '$path/{id}', ['fn', function(string|int \$id) {
     return \$handler->handleGetByIdRequest(get_request(false), $entityClass, \$id);
-}, $middlewares]);
+}, [$middlewares]]);
 PHP;
                 } elseif ($attr->routeType === ApiRouteType::Creatable) {
                     $middlewares = $this->getMiddlewares($attr);
@@ -74,7 +74,7 @@ PHP;
                     $routes .= <<<PHP
 \$r->addRoute('POST', '$path', ['fn', function() {
     return \$handler->handleCreateRequest(get_request(true), $entityClass, $entityFields);
-}, $middlewares]);
+}, [$middlewares]]);
 PHP;
                 } elseif ($attr->routeType === ApiRouteType::Updatable) {
                     $middlewares = $this->getMiddlewares($attr);
@@ -82,7 +82,7 @@ PHP;
                     $routes .= <<<PHP
 \$r->addRoute('PUT', '$path/{id}', ['fn', function(string|int \$id) {
     return \$handler->handleUpdateRequest(get_request(true), $entityClass, $entityFields, \$id);
-}, $middlewares]);
+}, [$middlewares]]);
 PHP;
                 } elseif ($attr->routeType === ApiRouteType::Deletable) {
                     $middlewares = $this->getMiddlewares($attr);
@@ -90,7 +90,7 @@ PHP;
                     $routes .= <<<PHP
 \$r->addRoute('DELETE', '$path', ['fn', function(string|int \$id) {
     return \$handler->handleDeleteRequest(get_request(false), $entityClass, \$id);
-}, $middlewares]);
+}, [$middlewares]]);
 PHP;
                 }
             }
