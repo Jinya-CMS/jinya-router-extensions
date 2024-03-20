@@ -43,7 +43,7 @@ class JinyaDatabaseExtension extends Extension
         $cacheFileModTime = filemtime($this->getCacheFilePath());
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->entityDirectory));
         foreach ($iterator as $file) {
-            /** @var $file SplFileInfo */
+            /** @var SplFileInfo $file */
             if ($file->isFile() && $file->getMTime() > $cacheFileModTime) {
                 return true;
             }

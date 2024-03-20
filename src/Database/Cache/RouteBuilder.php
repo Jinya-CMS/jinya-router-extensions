@@ -52,8 +52,9 @@ PHP;
             /** @var ReflectionClass $class */
             $class = $entity['class'];
 
+            /** @var class-string<Creatable|Updatable> $entityClass */
             $entityClass = $class->getName();
-            $apiPathName = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $class->getShortName()));
+            $apiPathName = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $class->getShortName()) ?? $class->getShortName());
             $entityFields = var_export($this->getFieldDefinitions($entityClass), true);
 
             foreach ($attrs as $attr) {
@@ -115,7 +116,7 @@ PHP;
         $this->classes = [];
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->entityDirectory));
         foreach ($iterator as $file) {
-            /** @var $file SplFileInfo */
+            /** @var SplFileInfo $file */
             if ($file->isFile() && $file->getExtension() === 'php') {
                 $className = $this->getClassNameFromFile($file);
                 if (class_exists($className)) {
@@ -148,8 +149,8 @@ PHP;
     /**
      * Gets the full class name of the given file
      *
-     * @param string $file The file to get the class name for
-     * @return class-string
+     * @param SplFileInfo $file The file to get the class name for
+     * @return string
      */
     private function getClassNameFromFile(SplFileInfo $file): string
     {
@@ -243,7 +244,7 @@ PHP;
     }
 
     /**
-     * @param object|class-string<Creatable|Updatable> $class
+     * @param object|class-string $class
      * @return array<string, array{default: mixed|null, required: bool|null, type: string}>
      * @throws ReflectionException
      */
@@ -263,6 +264,7 @@ PHP;
             $propertyName = $property->getName();
             $fields[lcfirst($propertyName)] = [
                 'required' => $col->defaultValue !== null && (bool)$property->getType()?->allowsNull(),
+                /** @phpstan-ignore-next-line */
                 'type' => $property->getType()?->getName() ?? 'mixed',
                 'default' => $col->defaultValue
             ];

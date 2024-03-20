@@ -269,7 +269,7 @@ class DatabaseRequestHandler
 
     /**
      * @param class-string<Creatable> $entityClass
-     * @param array<string, array{default: mixed|null, required: bool|null, type: string}> $fields
+     * @param array<string, array{default?: mixed|null, required: bool|null, type: string}> $fields
      */
     public function handleCreateRequest(
         ServerRequestInterface $request,
@@ -395,28 +395,30 @@ class DatabaseRequestHandler
     }
 
     /**
-     * @param array<string, array{default: mixed|null, required: bool|null, type: string}> $fields
+     * @param array<string, array{default: mixed|null, required: bool|null, type: string}|array{type: string}> $fields
      * @throws InvalidDateFormatException
      */
     public function fillEntityFields(array $fields, ServerRequestInterface $request, Creatable|Updatable $entity): void
     {
+        $value = null;
+        $field = null;
+
         try {
             $fieldNames = array_keys($fields);
             /** @var array<string, mixed> $body */
             $body = $request->getParsedBody();
-            $value = null;
-            $field = null;
             foreach ($fieldNames as $field) {
                 if (property_exists($entity, $field)) {
                     if (array_key_exists($field, $body)) {
                         $value = $body[$field];
                         if ($fields[$field]['type'] === DateTime::class) {
+                            /** @var string $value */
                             $entity->$field = DateTime::createFromFormat(
                                 DateTimeInterface::W3C,
-                                $body[$field]
+                                $value
                             ) ?: throw new InvalidDateFormatException(
                                 $request,
-                                $body[$field],
+                                $value,
                                 'The date has an invalid format'
                             );
                         } else {
