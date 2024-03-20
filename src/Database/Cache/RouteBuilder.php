@@ -54,7 +54,9 @@ PHP;
 
             /** @var class-string<Creatable|Updatable> $entityClass */
             $entityClass = $class->getName();
-            $apiPathName = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $class->getShortName()) ?? $class->getShortName());
+            $apiPathName = strtolower(
+                preg_replace('/(?<!^)[A-Z]/', '-$0', $class->getShortName()) ?? $class->getShortName()
+            );
             $entityFields = var_export($this->getFieldDefinitions($entityClass), true);
 
             foreach ($attrs as $attr) {
@@ -62,10 +64,10 @@ PHP;
                     $middlewares = $this->getMiddlewares($attr);
                     $path = $attr->path ?? "/api/$apiPathName";
                     $routes .= <<<PHP
-\$r->addRoute('GET', '$path', ['fn', function() {
+\$r->addRoute('GET', '$path', ['fn', function() use (\$handler) {
     return \$handler->handleGetAllRequest(get_request(false), $entityClass);
 }, [$middlewares]]);
-\$r->addRoute('GET', '$path/{id}', ['fn', function(string|int \$id) {
+\$r->addRoute('GET', '$path/{id}', ['fn', function(string|int \$id) use (\$handler) {
     return \$handler->handleGetByIdRequest(get_request(false), $entityClass, \$id);
 }, [$middlewares]]);
 PHP;
@@ -73,7 +75,7 @@ PHP;
                     $middlewares = $this->getMiddlewares($attr);
                     $path = $attr->path ?? "/api/$apiPathName";
                     $routes .= <<<PHP
-\$r->addRoute('POST', '$path', ['fn', function() {
+\$r->addRoute('POST', '$path', ['fn', function() use (\$handler) {
     return \$handler->handleCreateRequest(get_request(true), $entityClass, $entityFields);
 }, [$middlewares]]);
 PHP;
@@ -81,7 +83,7 @@ PHP;
                     $middlewares = $this->getMiddlewares($attr);
                     $path = $attr->path ?? "/api/$apiPathName";
                     $routes .= <<<PHP
-\$r->addRoute('PUT', '$path/{id}', ['fn', function(string|int \$id) {
+\$r->addRoute('PUT', '$path/{id}', ['fn', function(string|int \$id) use (\$handler) {
     return \$handler->handleUpdateRequest(get_request(true), $entityClass, $entityFields, \$id);
 }, [$middlewares]]);
 PHP;
@@ -89,7 +91,7 @@ PHP;
                     $middlewares = $this->getMiddlewares($attr);
                     $path = $attr->path ?? "/api/$apiPathName";
                     $routes .= <<<PHP
-\$r->addRoute('DELETE', '$path/{id}', ['fn', function(string|int \$id) {
+\$r->addRoute('DELETE', '$path/{id}', ['fn', function(string|int \$id) use (\$handler) {
     return \$handler->handleDeleteRequest(get_request(false), $entityClass, \$id);
 }, [$middlewares]]);
 PHP;
@@ -228,7 +230,7 @@ PHP;
                             if (is_string($val)) {
                                 $parameter[] = "'$val'";
                             } else {
-                                $parameter[] = $val;
+                                $parameter[] = var_export($val, true);
                             }
                         }
                     }

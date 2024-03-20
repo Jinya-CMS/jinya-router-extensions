@@ -309,7 +309,7 @@ class DatabaseRequestHandler
             );
         } catch (PDOException $exception) {
             $errorInfo = $exception->errorInfo ?? ['', ''];
-            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1062)) {
+            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && ($errorInfo[1] === 1062 || $errorInfo[1] === 19))) {
                 return Handlers::handleCreateUniqueFailedError(
                     $request,
                     new CreateUniqueFailedException($request, $entity, $exception->getMessage(), $exception)
@@ -372,7 +372,7 @@ class DatabaseRequestHandler
             );
         } catch (PDOException $exception) {
             $errorInfo = $exception->errorInfo ?? ['', ''];
-            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1062)) {
+            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && ($errorInfo[1] === 1062 || $errorInfo[1] === 19))) {
                 return Handlers::handleUpdateUniqueFailedError(
                     $request,
                     new UpdateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)

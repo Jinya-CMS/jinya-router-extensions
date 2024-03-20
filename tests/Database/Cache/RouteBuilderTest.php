@@ -5,6 +5,8 @@ namespace Jinya\Router\Extensions\Database\Cache;
 use FastRoute\Dispatcher;
 use Jinya\Router\Extensions\Database\Extensions\MigratingTestCase;
 
+use Jinya\Router\Http\FunctionMiddleware;
+
 use function FastRoute\simpleDispatcher;
 
 class RouteBuilderTest extends MigratingTestCase
@@ -87,5 +89,28 @@ class RouteBuilderTest extends MigratingTestCase
 
         $deleteDispatch = $dispatcher->dispatch('DELETE', '/api/test/1');
         self::assertEquals(Dispatcher::METHOD_NOT_ALLOWED, $deleteDispatch[0]);
+
+        $getAllWithMiddlewareDispatch = $dispatcher->dispatch('GET', '/api/api-test-entity-with-middleware');
+        self::assertEquals(Dispatcher::FOUND, $getAllWithMiddlewareDispatch[0]);
+        self::assertEmpty($getAllWithMiddlewareDispatch[2]);
+        self::assertIsArray($getAllWithMiddlewareDispatch[2]);
+
+        $handler = $getAllWithMiddlewareDispatch[1];
+        self::assertEquals('fn', $handler[0]);
+        self::assertIsCallable($handler[1]);
+        self::assertIsArray($handler[2]);
+        self::assertInstanceOf(FunctionMiddleware::class, $handler[2][0]);
+
+        $getWithMiddlewareDispatch = $dispatcher->dispatch('GET', '/api/api-test-entity-with-middleware/1');
+        self::assertEquals(Dispatcher::FOUND, $getWithMiddlewareDispatch[0]);
+        self::assertNotEmpty($getWithMiddlewareDispatch[2]);
+        self::assertIsArray($getWithMiddlewareDispatch[2]);
+        self::assertArrayHasKey('id', $getWithMiddlewareDispatch[2]);
+
+        $handler = $getWithMiddlewareDispatch[1];
+        self::assertEquals('fn', $handler[0]);
+        self::assertIsCallable($handler[1]);
+        self::assertIsArray($handler[2]);
+        self::assertInstanceOf(FunctionMiddleware::class, $handler[2][0]);
     }
 }

@@ -20,19 +20,35 @@ class ReferencedTestEntityMigration extends AbstractMigration
 
         $testEntityTableName = TestEntity::getTableName();
         $tableName = ReferencedTestEntity::getTableName();
-        $pdo->exec(
-            "
-        create table $tableName (
-            id integer primary key $identity,
-            name varchar(255) not null,
-            display_name varchar(255) not null,
-            date timestamp not null,
-            test_entity_id integer not null,
-            constraint fk_test_entity
-                foreign key(test_entity_id) 
-                    references $testEntityTableName(id)
-        )"
-        );
+        if (getenv('DATABASE_TYPE') === 'sqlite') {
+            $pdo->exec(
+                "
+                PRAGMA foreign_keys = ON;
+                create table $tableName (
+                    id integer primary key $identity,
+                    name varchar(255) not null,
+                    display_name varchar(255) not null,
+                    date timestamp not null,
+                    test_entity_id integer not null,
+                    foreign key(test_entity_id) 
+                        references $testEntityTableName(id)
+                )"
+            );
+        } else {
+            $pdo->exec(
+                "
+                create table $tableName (
+                    id integer primary key $identity,
+                    name varchar(255) not null,
+                    display_name varchar(255) not null,
+                    date timestamp not null,
+                    test_entity_id integer not null,
+                    constraint fk_test_entity
+                        foreign key(test_entity_id) 
+                            references $testEntityTableName(id)
+                )"
+            );
+        }
 
         $rows = [];
         for ($i = 11; $i < 21; ++$i) {
