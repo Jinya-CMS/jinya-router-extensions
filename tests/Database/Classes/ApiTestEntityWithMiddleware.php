@@ -6,13 +6,8 @@ use DateTime;
 use Jinya\Database\Attributes\Column;
 use Jinya\Database\Attributes\Id;
 use Jinya\Database\Entity;
-use Jinya\Router\Extensions\Database\Attributes\Create;
-use Jinya\Router\Extensions\Database\Attributes\Delete;
 use Jinya\Router\Extensions\Database\Attributes\Find;
-use Jinya\Router\Extensions\Database\Attributes\Update;
 use Jinya\Router\Http\FunctionMiddleware;
-
-use function Laminas\Stratigility\middleware;
 
 #[Find(middleware: new FunctionMiddleware('strtolower', []))]
 class ApiTestEntityWithMiddleware extends Entity
