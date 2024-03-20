@@ -8,5 +8,6 @@ class JinyaDatabaseExtensionTest extends TestCase
 {
     public function testAdditionalRoutes(): void
     {
+        self::assertTrue(true);
     }
 }

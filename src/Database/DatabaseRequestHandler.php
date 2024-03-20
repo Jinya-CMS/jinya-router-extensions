@@ -422,7 +422,7 @@ class DatabaseRequestHandler
                         } else {
                             $entity->$field = $value;
                         }
-                    } elseif ($entity instanceof Creatable && $fields[$field]['default']) {
+                    } elseif ($entity instanceof Creatable && ($fields[$field]['default'] ?? false)) {
                         $entity->$field = $fields[$field]['default'];
                     }
                 }

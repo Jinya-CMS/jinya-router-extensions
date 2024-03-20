@@ -53,7 +53,7 @@ PHP;
             $class = $entity['class'];
 
             $entityClass = $class->getName();
-            $apiPathName = str_replace('\\', '-', $class->getShortName());
+            $apiPathName = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $class->getShortName()));
             $entityFields = var_export($this->getFieldDefinitions($entityClass), true);
 
             foreach ($attrs as $attr) {
@@ -88,7 +88,7 @@ PHP;
                     $middlewares = $this->getMiddlewares($attr);
                     $path = $attr->path ?? "/api/$apiPathName";
                     $routes .= <<<PHP
-\$r->addRoute('DELETE', '$path', ['fn', function(string|int \$id) {
+\$r->addRoute('DELETE', '$path/{id}', ['fn', function(string|int \$id) {
     return \$handler->handleDeleteRequest(get_request(false), $entityClass, \$id);
 }, [$middlewares]]);
 PHP;
