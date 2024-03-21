@@ -57,9 +57,15 @@ class JinyaDatabaseExtension extends Extension
         $routeBuilder = new RouteBuilder($this->entityDirectory);
         $cacheFileContent = $routeBuilder->getRoutes();
         $cacheFile = $this->getCacheFilePath();
-        file_put_contents($cacheFile, $cacheFileContent);
+        file_put_contents(
+            $cacheFile,
+            <<<PHP
+<?php
+    $cacheFileContent
+PHP
+        );
 
-        $functionName = uniqid('$jinyaRouterExtensionsRegistrationFunction', true);
+        $functionName = uniqid('$jinyaRouterExtensionsRegistrationFunction', false);
 
         return <<<PHP
 $functionName = include '$cacheFile';
