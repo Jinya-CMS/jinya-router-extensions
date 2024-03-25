@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7676cfe2782c6bf4e6bf5dcb10e67e93",
+    "content-hash": "aff082b6fda85b85f6eb5d35dd1fa6f6",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -173,16 +173,16 @@
         },
         {
             "name": "jinya/database",
-            "version": "0.8.0",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-database.git",
-                "reference": "bb20906b88a0dbbc1a441cf18bd7908afb037f33"
+                "reference": "7435054d2e2c83eb6ee3aa82ca2c31c19484ea22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/bb20906b88a0dbbc1a441cf18bd7908afb037f33",
-                "reference": "bb20906b88a0dbbc1a441cf18bd7908afb037f33",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/7435054d2e2c83eb6ee3aa82ca2c31c19484ea22",
+                "reference": "7435054d2e2c83eb6ee3aa82ca2c31c19484ea22",
                 "shasum": ""
             },
             "require": {
@@ -214,11 +214,15 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple database struct mapper that resembles some features of an ORM",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-database/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.8.0"
+                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.10.0"
             },
-            "time": "2024-03-24T22:14:25+00:00"
+            "time": "2024-03-25T16:16:58+00:00"
         },
         {
             "name": "jinya/router",

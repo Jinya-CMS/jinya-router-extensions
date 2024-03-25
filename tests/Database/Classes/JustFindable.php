@@ -13,7 +13,7 @@ class JustFindable implements Findable
         throw new RuntimeException();
     }
 
-    public static function findById(int|string $id): mixed
+    public static function findById(int|string $id): static
     {
         throw new RuntimeException();
     }
