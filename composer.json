@@ -1,11 +1,12 @@
 {
   "name": "jinya/router-extensions",
+  "description": "Official extensions for the Jinya Router",
   "type": "library",
   "require": {
     "php": "^8.2",
     "ext-pdo": "*",
     "ext-simplexml": "*",
-    "jinya/database": "^0.8.0",
+    "jinya/database": "^0.10.0",
     "jinya/router": "^0.6.0"
   },
   "require-dev": {
