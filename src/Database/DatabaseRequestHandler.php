@@ -368,7 +368,7 @@ class DatabaseRequestHandler
         } catch (NotNullViolationException $exception) {
             return Handlers::handleUpdateColumnIsNullError(
                 $request,
-                new UpdateColumnIsNullException($request, $entity ?? null, $exception->getMessage(), $exception)
+                new UpdateColumnIsNullException($request, $entity, $exception->getMessage(), $exception)
             );
         } catch (PDOException $exception) {
             $errorInfo = $exception->errorInfo ?? ['', ''];
@@ -397,11 +397,12 @@ class DatabaseRequestHandler
     /**
      * @param array<string, array{default: mixed|null, required: bool|null, type: string}|array{type: string}> $fields
      * @throws InvalidDateFormatException
+     * @throws NotNullViolationException
      */
     public function fillEntityFields(array $fields, ServerRequestInterface $request, Creatable|Updatable $entity): void
     {
         $value = null;
-        $field = null;
+        $field = '';
 
         try {
             $fieldNames = array_keys($fields);

@@ -23,6 +23,7 @@ class ApiTestEntityMigration extends AbstractMigration
         create table $tableName (
             id integer primary key $identity,
             name varchar(255) not null unique,
+            ignored varchar(255) not null,
             display_name varchar(255) not null,
             date timestamp not null
         )"
@@ -30,7 +31,12 @@ class ApiTestEntityMigration extends AbstractMigration
 
         $rows = [];
         for ($i = 11; $i < 21; ++$i) {
-            $rows[] = ['name' => "Test $i", 'display_name' => "Test case $i", 'date' => "20$i-09-11 20:34:25"];
+            $rows[] = [
+                'name' => "Test $i",
+                'ignored' => "Ignored $i",
+                'display_name' => "Test case $i",
+                'date' => "20$i-09-11 20:34:25"
+            ];
         }
 
         $statement = ApiTestEntity::getQueryBuilder()
