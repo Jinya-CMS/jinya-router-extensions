@@ -25,27 +25,27 @@
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/tools" />
-      <path value="$PROJECT_DIR$/vendor/psr/http-server-middleware" />
-      <path value="$PROJECT_DIR$/vendor/psr/http-server-handler" />
-      <path value="$PROJECT_DIR$/vendor/jetbrains/phpstorm-attributes" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-httphandlerrunner" />
-      <path value="$PROJECT_DIR$/vendor/aura/sqlquery" />
-      <path value="$PROJECT_DIR$/vendor/nyholm/psr7-server" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-diactoros" />
-      <path value="$PROJECT_DIR$/vendor/nyholm/psr7" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-stratigility" />
-      <path value="$PROJECT_DIR$/vendor/laminas/laminas-escaper" />
       <path value="$PROJECT_DIR$/vendor/composer" />
-      <path value="$PROJECT_DIR$/vendor/laravel/pint" />
       <path value="$PROJECT_DIR$/vendor/nikic/fast-route" />
-      <path value="$PROJECT_DIR$/vendor/fig/http-message-util" />
-      <path value="$PROJECT_DIR$/vendor/jinya/router" />
-      <path value="$PROJECT_DIR$/vendor/jinya/database" />
-      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
-      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
       <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
-      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/fig/http-message-util" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-httphandlerrunner" />
+      <path value="$PROJECT_DIR$/vendor/jetbrains/phpstorm-attributes" />
+      <path value="$PROJECT_DIR$/vendor/jinya/database" />
+      <path value="$PROJECT_DIR$/vendor/nyholm/psr7" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-stratigility" />
+      <path value="$PROJECT_DIR$/vendor/nyholm/psr7-server" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-diactoros" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-escaper" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-server-middleware" />
+      <path value="$PROJECT_DIR$/vendor/jinya/router" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-server-handler" />
+      <path value="$PROJECT_DIR$/vendor/laravel/pint" />
+      <path value="$PROJECT_DIR$/vendor/aura/sqlquery" />
     </include_path>
   </component>
   <component name="PhpInterpreters">
@@ -237,6 +237,7 @@
   <component name="PhpUnit">
     <phpunit_settings>
       <phpunit_by_interpreter interpreter_id="fa201ae2-907c-437b-8516-6f7c6d21ace5" load_method="PHPUNIT_PHAR" configuration_file_path="/var/www/html/phpunit.xml" custom_loader_path="/var/www/html/vendor/autoload.php" phpunit_phar_path="/var/www/html/tools/phpunit" use_configuration_file="true" />
+      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/phpunit.xml" custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" use_configuration_file="true" />
     </phpunit_settings>
   </component>
   <component name="PsalmOptionsConfiguration">

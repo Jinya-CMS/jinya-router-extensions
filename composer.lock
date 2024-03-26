@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2923b4d5ee3f0c300199917f547ab6c",
+    "content-hash": "58626f4b7a2aba7f86c45b4daf079221",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -173,16 +173,16 @@
         },
         {
             "name": "jinya/database",
-            "version": "0.11.0",
+            "version": "0.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-database.git",
-                "reference": "73bddc69ebec4e94be7b7e239d351529c7166c35"
+                "reference": "82cbc8eaccd2c36320d5c6d2ab5753e95a500821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/73bddc69ebec4e94be7b7e239d351529c7166c35",
-                "reference": "73bddc69ebec4e94be7b7e239d351529c7166c35",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/82cbc8eaccd2c36320d5c6d2ab5753e95a500821",
+                "reference": "82cbc8eaccd2c36320d5c6d2ab5753e95a500821",
                 "shasum": ""
             },
             "require": {
@@ -220,9 +220,9 @@
             "description": "A simple database struct mapper that resembles some features of an ORM",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-database/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.11.0"
+                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.15.0"
             },
-            "time": "2024-03-25T20:13:23+00:00"
+            "time": "2024-03-26T21:43:43+00:00"
         },
         {
             "name": "jinya/router",
@@ -994,16 +994,16 @@
     "packages-dev": [
         {
             "name": "laravel/pint",
-            "version": "v1.13.10",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "e2b5060885694ca30ac008c05dc9d47f10ed1abf"
+                "reference": "6b127276e3f263f7bb17d5077e9e0269e61b2a0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/e2b5060885694ca30ac008c05dc9d47f10ed1abf",
-                "reference": "e2b5060885694ca30ac008c05dc9d47f10ed1abf",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/6b127276e3f263f7bb17d5077e9e0269e61b2a0e",
+                "reference": "6b127276e3f263f7bb17d5077e9e0269e61b2a0e",
                 "shasum": ""
             },
             "require": {
@@ -1014,13 +1014,13 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.47.1",
-                "illuminate/view": "^10.41.0",
+                "friendsofphp/php-cs-fixer": "^3.49.0",
+                "illuminate/view": "^10.43.0",
                 "larastan/larastan": "^2.8.1",
                 "laravel-zero/framework": "^10.3.0",
                 "mockery/mockery": "^1.6.7",
                 "nunomaduro/termwind": "^1.15.1",
-                "pestphp/pest": "^2.31.0"
+                "pestphp/pest": "^2.33.6"
             },
             "bin": [
                 "builds/pint"
@@ -1056,7 +1056,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2024-01-22T09:04:15+00:00"
+            "time": "2024-02-20T17:38:05+00:00"
         },
         {
             "name": "symfony/filesystem",

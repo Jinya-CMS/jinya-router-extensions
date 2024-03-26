@@ -7,7 +7,9 @@ use DateTimeInterface;
 use Iterator;
 use Jinya\Database\Creatable;
 use Jinya\Database\Deletable;
+use Jinya\Database\Exception\ForeignKeyFailedException;
 use Jinya\Database\Exception\NotNullViolationException;
+use Jinya\Database\Exception\UniqueFailedException;
 use Jinya\Database\Findable;
 use Jinya\Database\Updatable;
 use Jinya\Router\Extensions\Database\Exceptions\CreateColumnIsNullException;
@@ -250,15 +252,12 @@ class DatabaseRequestHandler
             return $this->handleDeleteResult();
         } catch (NotFoundException $exception) {
             return Handlers::handleNotFound($request, $exception);
+        } catch (ForeignKeyFailedException $exception) {
+            return Handlers::handleDeleteReferencedError(
+                $request,
+                new DeleteReferencedException($request, $entity ?? null, "The entity is referenced")
+            );
         } catch (PDOException $exception) {
-            $errorInfo = $exception->errorInfo ?? [''];
-            if ($errorInfo[0] === '23503' || $errorInfo[0] === '23000') {
-                return Handlers::handleDeleteReferencedError(
-                    $request,
-                    new DeleteReferencedException($request, $entity ?? null, "The entity is referenced")
-                );
-            }
-
             // @codeCoverageIgnoreStart
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
@@ -307,22 +306,17 @@ class DatabaseRequestHandler
                 $request,
                 new CreateColumnIsNullException($request, $entity, $exception->getMessage(), $exception)
             );
+        } catch (UniqueFailedException $exception) {
+            return Handlers::handleCreateUniqueFailedError(
+                $request,
+                new CreateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
+            );
+        } catch (ForeignKeyFailedException $exception) {
+            return Handlers::handleCreateReferenceFailedError(
+                $request,
+                new CreateReferenceFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
+            );
         } catch (PDOException $exception) {
-            $errorInfo = $exception->errorInfo ?? ['', ''];
-            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && ($errorInfo[1] === 1062 || $errorInfo[1] === 19))) {
-                return Handlers::handleCreateUniqueFailedError(
-                    $request,
-                    new CreateUniqueFailedException($request, $entity, $exception->getMessage(), $exception)
-                );
-            }
-
-            if ($errorInfo[0] === '23503' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1452)) {
-                return Handlers::handleCreateReferenceFailedError(
-                    $request,
-                    new CreateReferenceFailedException($request, $entity, $exception->getMessage(), $exception)
-                );
-            }
-
             // @codeCoverageIgnoreStart
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
@@ -370,22 +364,17 @@ class DatabaseRequestHandler
                 $request,
                 new UpdateColumnIsNullException($request, $entity, $exception->getMessage(), $exception)
             );
+        } catch (UniqueFailedException $exception) {
+            return Handlers::handleUpdateUniqueFailedError(
+                $request,
+                new UpdateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
+            );
+        } catch (ForeignKeyFailedException $exception) {
+            return Handlers::handleUpdateReferenceFailedError(
+                $request,
+                new UpdateReferenceFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
+            );
         } catch (PDOException $exception) {
-            $errorInfo = $exception->errorInfo ?? ['', ''];
-            if ($errorInfo[0] === '23505' || ($errorInfo[0] === '23000' && ($errorInfo[1] === 1062 || $errorInfo[1] === 19))) {
-                return Handlers::handleUpdateUniqueFailedError(
-                    $request,
-                    new UpdateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
-                );
-            }
-
-            if ($errorInfo[0] === '23503' || ($errorInfo[0] === '23000' && $errorInfo[1] === 1452)) {
-                return Handlers::handleUpdateReferenceFailedError(
-                    $request,
-                    new UpdateReferenceFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
-                );
-            }
-
             // @codeCoverageIgnoreStart
             return Handlers::handleInternalServerError($request, $exception);
         } catch (Throwable $exception) {
