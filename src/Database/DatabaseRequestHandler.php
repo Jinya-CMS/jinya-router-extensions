@@ -309,12 +309,12 @@ class DatabaseRequestHandler
         } catch (UniqueFailedException $exception) {
             return Handlers::handleCreateUniqueFailedError(
                 $request,
-                new CreateUniqueFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
+                new CreateUniqueFailedException($request, $entity, $exception->getMessage(), $exception)
             );
         } catch (ForeignKeyFailedException $exception) {
             return Handlers::handleCreateReferenceFailedError(
                 $request,
-                new CreateReferenceFailedException($request, $entity ?? null, $exception->getMessage(), $exception)
+                new CreateReferenceFailedException($request, $entity, $exception->getMessage(), $exception)
             );
         } catch (PDOException $exception) {
             // @codeCoverageIgnoreStart
