@@ -33,7 +33,7 @@ phpunit:
     - .install-dependencies
   script:
     - sleep 60
-    - ./tools/phpunit --no-progress --log-junit report.xml --configuration phpunit.xml --coverage-cobertura=coverage.cobertura.xml
+    - ./tools/phpunit --no-progress --log-junit report.xml --configuration phpunit.ci.xml --coverage-cobertura=coverage.cobertura.xml
   artifacts:
     when: always
     paths:
@@ -56,36 +56,37 @@ phpunit:
     POSTGRES_DB: jinya
   services:
     - name: ${DATABASE_IMAGE}
+      alias: database
   parallel:
     matrix:
       # MySQL testing
-      - DATABASE_DSN: 'mysql:host=mysql-8-0;port=3306;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'mysql:host=database;port=3306;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'mysql'
         DATABASE_IMAGE: 'library/mysql:8.0'
-      - DATABASE_DSN: 'mysql:host=mysql-8-2;port=3306;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'mysql:host=database;port=3306;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'mysql'
         DATABASE_IMAGE: 'library/mysql:8.2'
       # MariaDB testing
-      - DATABASE_DSN: 'mysql:host=mariadb-10;port=3306;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'mysql:host=database;port=3306;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'mysql'
-        DATABASE_IMAGE: 'library/mariadb:10'
-      - DATABASE_DSN: 'mysql:host=mariadb-11;port=3306;dbname=jinya;user=jinya;password=jinya;'
+        DATABASE_IMAGE: 'library/mariadb:10,11'
+      - DATABASE_DSN: 'mysql:host=database;port=3306;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'mysql'
-        DATABASE_IMAGE: 'library/mariadb:11'
+        DATABASE_IMAGE: 'library/mariadb:11.3'
       # Postgres testing
-      - DATABASE_DSN: 'pgsql:host=postgres-12;port=5432;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'pgsql:host=database;port=5432;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'pgsql'
         DATABASE_IMAGE: 'library/postgres:12-alpine'
-      - DATABASE_DSN: 'pgsql:host=postgres-13;port=5432;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'pgsql:host=database;port=5432;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'pgsql'
         DATABASE_IMAGE: 'library/postgres:13-alpine'
-      - DATABASE_DSN: 'pgsql:host=postgres-14;port=5432;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'pgsql:host=database;port=5432;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'pgsql'
         DATABASE_IMAGE: 'library/postgres:14-alpine'
-      - DATABASE_DSN: 'pgsql:host=postgres-15;port=5432;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'pgsql:host=database;port=5432;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'pgsql'
         DATABASE_IMAGE: 'library/postgres:15-alpine'
-      - DATABASE_DSN: 'pgsql:host=postgres-16;port=5432;dbname=jinya;user=jinya;password=jinya;'
+      - DATABASE_DSN: 'pgsql:host=database;port=5432;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'pgsql'
         DATABASE_IMAGE: 'library/postgres:16-alpine'
       # Sqlite testing
