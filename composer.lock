@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3682a7c14b8214bbe9a6aac1dea6085d",
+    "content-hash": "821f4ad8fdce9659f36125c620877d78",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -173,16 +173,16 @@
         },
         {
             "name": "jinya/database",
-            "version": "0.15.0",
+            "version": "0.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-database.git",
-                "reference": "82cbc8eaccd2c36320d5c6d2ab5753e95a500821"
+                "reference": "a6e20821cd3045ae2365305225f3747ec9bb5f4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/82cbc8eaccd2c36320d5c6d2ab5753e95a500821",
-                "reference": "82cbc8eaccd2c36320d5c6d2ab5753e95a500821",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/a6e20821cd3045ae2365305225f3747ec9bb5f4a",
+                "reference": "a6e20821cd3045ae2365305225f3747ec9bb5f4a",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                 "ext-pdo_mysql": "*",
                 "ext-pdo_pgsql": "*",
                 "ext-pdo_sqlite": "*",
-                "laravel/pint": "v1.14.0",
+                "laravel/pint": "v1.15.0",
                 "roave/security-advisories": "dev-latest",
                 "symfony/filesystem": "v7.0.3"
             },
@@ -220,9 +220,9 @@
             "description": "A simple database struct mapper that resembles some features of an ORM",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-database/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.15.0"
+                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.16.0"
             },
-            "time": "2024-03-26T21:43:43+00:00"
+            "time": "2024-03-30T22:50:45+00:00"
         },
         {
             "name": "jinya/router",
