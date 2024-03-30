@@ -33,7 +33,7 @@ phpunit:
     - .install-dependencies
   script:
     - sleep 60
-    - ./tools/phpunit --no-progress --log-junit report.xml --configuration phpunit.ci.xml --coverage-cobertura=coverage.cobertura.xml
+    - ./tools/phpunit --no-progress --log-junit report.xml --configuration phpunit.xml --coverage-cobertura=coverage.cobertura.xml
   artifacts:
     when: always
     paths:
