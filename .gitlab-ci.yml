@@ -69,10 +69,10 @@ phpunit:
       # MariaDB testing
       - DATABASE_DSN: 'mysql:host=database;port=3306;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'mysql'
-        DATABASE_IMAGE: 'library/mariadb:10,11'
+        DATABASE_IMAGE: 'library/mariadb:lts'
       - DATABASE_DSN: 'mysql:host=database;port=3306;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'mysql'
-        DATABASE_IMAGE: 'library/mariadb:11.3'
+        DATABASE_IMAGE: 'library/mariadb:latest'
       # Postgres testing
       - DATABASE_DSN: 'pgsql:host=database;port=5432;dbname=jinya;user=jinya;password=jinya;'
         DATABASE_TYPE: 'pgsql'
