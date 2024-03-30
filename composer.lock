@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eab593a4bfae84cb5a03af94f9e87260",
+    "content-hash": "3682a7c14b8214bbe9a6aac1dea6085d",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -226,16 +226,16 @@
         },
         {
             "name": "jinya/router",
-            "version": "0.8.0",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-router.git",
-                "reference": "1cf64504b245bb60dab10d17133a01c944aac5d4"
+                "reference": "1a9df2bd4775ca4394ec874fd269a80630b1dcf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/1cf64504b245bb60dab10d17133a01c944aac5d4",
-                "reference": "1cf64504b245bb60dab10d17133a01c944aac5d4",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/1a9df2bd4775ca4394ec874fd269a80630b1dcf0",
+                "reference": "1a9df2bd4775ca4394ec874fd269a80630b1dcf0",
                 "shasum": ""
             },
             "require": {
@@ -278,9 +278,9 @@
             "description": "A simple attribute-based routing library",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-router/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.8.0"
+                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.9.0"
             },
-            "time": "2024-03-30T22:02:31+00:00"
+            "time": "2024-03-30T22:11:15+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
