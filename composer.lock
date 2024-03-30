@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5f15fb7f7d92028e237c094bf6fb7487",
+    "content-hash": "601b0d3d0eb18a13ec613098cbd6564b",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -226,16 +226,16 @@
         },
         {
             "name": "jinya/router",
-            "version": "0.6.0",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-router.git",
-                "reference": "ab3fbb9b71074c46f9e43b570b0da30b287ac0e4"
+                "reference": "56560a80eb0e198068d3739e825d457384d504b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/ab3fbb9b71074c46f9e43b570b0da30b287ac0e4",
-                "reference": "ab3fbb9b71074c46f9e43b570b0da30b287ac0e4",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/56560a80eb0e198068d3739e825d457384d504b0",
+                "reference": "56560a80eb0e198068d3739e825d457384d504b0",
                 "shasum": ""
             },
             "require": {
@@ -252,7 +252,7 @@
             },
             "require-dev": {
                 "ext-xdebug": "*",
-                "laravel/pint": "v1.14.0",
+                "laravel/pint": "v1.15.0",
                 "roave/security-advisories": "dev-latest"
             },
             "type": "library",
@@ -278,9 +278,9 @@
             "description": "A simple attribute-based routing library",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-router/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.6.0"
+                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.7.0"
             },
-            "time": "2024-03-08T23:03:07+00:00"
+            "time": "2024-03-30T03:31:12+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",

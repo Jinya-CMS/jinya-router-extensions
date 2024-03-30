@@ -7,7 +7,7 @@
     "ext-pdo": "*",
     "ext-simplexml": "*",
     "jinya/database": "^0.15.0",
-    "jinya/router": "^0.6.0"
+    "jinya/router": "^0.7.0"
   },
   "require-dev": {
     "laravel/pint": "v1.15.0",
