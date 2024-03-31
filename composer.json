@@ -18,6 +18,9 @@
   },
   "license": "MIT",
   "autoload": {
+    "files": [
+      "src/Database/routing_handler_utils.php"
+    ],
     "psr-4": {
       "Jinya\\Router\\Extensions\\": "src/"
     }
