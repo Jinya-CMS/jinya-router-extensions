@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ab8f8a257d17d3e7d97800635219966",
+    "content-hash": "7bf9f50a3081d47b0a71dd71d269b26c",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -173,16 +173,16 @@
         },
         {
             "name": "jinya/database",
-            "version": "0.16.0",
+            "version": "0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-database.git",
-                "reference": "a6e20821cd3045ae2365305225f3747ec9bb5f4a"
+                "reference": "d68d2f2d150d46d0f8a42c06138ea7e15bf1e9ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/a6e20821cd3045ae2365305225f3747ec9bb5f4a",
-                "reference": "a6e20821cd3045ae2365305225f3747ec9bb5f4a",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/d68d2f2d150d46d0f8a42c06138ea7e15bf1e9ea",
+                "reference": "d68d2f2d150d46d0f8a42c06138ea7e15bf1e9ea",
                 "shasum": ""
             },
             "require": {
@@ -220,9 +220,9 @@
             "description": "A simple database struct mapper that resembles some features of an ORM",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-database/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.16.0"
+                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.17.0"
             },
-            "time": "2024-03-30T22:50:45+00:00"
+            "time": "2024-03-31T03:14:49+00:00"
         },
         {
             "name": "jinya/router",
