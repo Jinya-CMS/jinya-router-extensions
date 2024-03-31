@@ -125,6 +125,10 @@ class DatabaseRequestHandler
      */
     private function checkRequiredFields(ServerRequestInterface $request, array $fields): void
     {
+        if (empty($fields)) {
+            return;
+        }
+
         $body = $request->getParsedBody();
         if (!$body || !is_array($body)) {
             throw new MissingFieldsException(
@@ -143,7 +147,7 @@ class DatabaseRequestHandler
         if (!empty($missingFields)) {
             throw new MissingFieldsException(
                 $request,
-                $fields,
+                $missingFields,
                 'Required fields are missing'
             );
         }
