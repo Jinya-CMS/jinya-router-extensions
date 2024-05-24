@@ -10,7 +10,7 @@
     "jinya/router": "^0.10.0"
   },
   "require-dev": {
-    "laravel/pint": "v1.15.3",
+    "laravel/pint": "v1.16.0",
     "symfony/filesystem": "v7.0.7"
   },
   "suggest": {
