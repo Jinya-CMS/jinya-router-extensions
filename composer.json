@@ -11,7 +11,7 @@
   },
   "require-dev": {
     "laravel/pint": "v1.16.0",
-    "symfony/filesystem": "v7.1.0"
+    "symfony/filesystem": "v7.1.1"
   },
   "suggest": {
     "ext-zend opcache": "*"
