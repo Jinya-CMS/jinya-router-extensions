@@ -10,8 +10,8 @@
     "jinya/router": "^0.10.0"
   },
   "require-dev": {
-    "laravel/pint": "v1.18.1",
-    "symfony/filesystem": "v7.1.5"
+    "laravel/pint": "v1.18.3",
+    "symfony/filesystem": "v7.2.0"
   },
   "suggest": {
     "ext-zend opcache": "*"
