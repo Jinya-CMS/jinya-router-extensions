@@ -6,11 +6,11 @@
     "php": "^8.2",
     "ext-pdo": "*",
     "ext-simplexml": "*",
-    "jinya/database": "^0.17.0",
-    "jinya/router": "^0.10.0"
+    "jinya/database": "^0.18",
+    "jinya/router": "^0.11"
   },
   "require-dev": {
-    "laravel/pint": "v1.18.3",
+    "laravel/pint": "v1.19.0",
     "symfony/filesystem": "v7.2.0"
   },
   "suggest": {

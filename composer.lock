@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3ebba60b75f6c62bf93afa302db97d3",
+    "content-hash": "4cafcbd5dac53a9c8efdd372552baaa9",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -131,16 +131,16 @@
         },
         {
             "name": "jetbrains/phpstorm-attributes",
-            "version": "1.0",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JetBrains/phpstorm-attributes.git",
-                "reference": "a7a83ae5df4dd3c0875484483de19de8edf60a9f"
+                "reference": "64de815a4509c29e00d5e3474087fd24c171afc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JetBrains/phpstorm-attributes/zipball/a7a83ae5df4dd3c0875484483de19de8edf60a9f",
-                "reference": "a7a83ae5df4dd3c0875484483de19de8edf60a9f",
+                "url": "https://api.github.com/repos/JetBrains/phpstorm-attributes/zipball/64de815a4509c29e00d5e3474087fd24c171afc2",
+                "reference": "64de815a4509c29e00d5e3474087fd24c171afc2",
                 "shasum": ""
             },
             "type": "library",
@@ -167,28 +167,28 @@
             ],
             "support": {
                 "issues": "https://youtrack.jetbrains.com/newIssue?project=WI",
-                "source": "https://github.com/JetBrains/phpstorm-attributes/tree/1.0"
+                "source": "https://github.com/JetBrains/phpstorm-attributes/tree/1.2"
             },
-            "time": "2020-11-17T11:09:47+00:00"
+            "time": "2024-10-11T10:46:19+00:00"
         },
         {
             "name": "jinya/database",
-            "version": "0.17.0",
+            "version": "0.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-database.git",
-                "reference": "d68d2f2d150d46d0f8a42c06138ea7e15bf1e9ea"
+                "reference": "0a2ee6b864b619150f78d96fb96b1150b33597b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/d68d2f2d150d46d0f8a42c06138ea7e15bf1e9ea",
-                "reference": "d68d2f2d150d46d0f8a42c06138ea7e15bf1e9ea",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-database/zipball/0a2ee6b864b619150f78d96fb96b1150b33597b4",
+                "reference": "0a2ee6b864b619150f78d96fb96b1150b33597b4",
                 "shasum": ""
             },
             "require": {
-                "aura/sqlquery": "3.0.0",
+                "aura/sqlquery": "^3.0",
                 "ext-pdo": "*",
-                "jetbrains/phpstorm-attributes": "1.0",
+                "jetbrains/phpstorm-attributes": "^1.0",
                 "php": "^8.2"
             },
             "require-dev": {
@@ -196,9 +196,9 @@
                 "ext-pdo_mysql": "*",
                 "ext-pdo_pgsql": "*",
                 "ext-pdo_sqlite": "*",
-                "laravel/pint": "v1.15.0",
+                "laravel/pint": "v1.19.0",
                 "roave/security-advisories": "dev-latest",
-                "symfony/filesystem": "v7.0.3"
+                "symfony/filesystem": "v7.2.0"
             },
             "suggest": {
                 "ext-apcu": "*",
@@ -220,39 +220,39 @@
             "description": "A simple database struct mapper that resembles some features of an ORM",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-database/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.17.0"
+                "source": "https://github.com/Jinya-CMS/jinya-database/tree/0.18.0"
             },
-            "time": "2024-03-31T03:14:49+00:00"
+            "time": "2025-01-05T01:45:56+00:00"
         },
         {
             "name": "jinya/router",
-            "version": "0.10.0",
+            "version": "0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jinya-CMS/jinya-router.git",
-                "reference": "f6feea5d9d3ff596bdd6f30e375c8a71bc86e76d"
+                "reference": "640e233ae9b1386bc392594466f4bf2a6588fee8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/f6feea5d9d3ff596bdd6f30e375c8a71bc86e76d",
-                "reference": "f6feea5d9d3ff596bdd6f30e375c8a71bc86e76d",
+                "url": "https://api.github.com/repos/Jinya-CMS/jinya-router/zipball/640e233ae9b1386bc392594466f4bf2a6588fee8",
+                "reference": "640e233ae9b1386bc392594466f4bf2a6588fee8",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
-                "jetbrains/phpstorm-attributes": "^1.0",
-                "laminas/laminas-diactoros": "^3.0.0",
-                "laminas/laminas-httphandlerrunner": "^2.7.0",
-                "laminas/laminas-stratigility": "^3.10.0",
-                "nikic/fast-route": "^v1.3.0",
-                "nyholm/psr7": "^1.8.0",
-                "nyholm/psr7-server": "^1.0.2",
+                "jetbrains/phpstorm-attributes": "^1.1",
+                "laminas/laminas-diactoros": "^3.4",
+                "laminas/laminas-httphandlerrunner": "^2.10",
+                "laminas/laminas-stratigility": "^3.10",
+                "nikic/fast-route": "^v1.3",
+                "nyholm/psr7": "^1.8",
+                "nyholm/psr7-server": "^1.1",
                 "php": ">=8.2",
-                "psr/http-server-middleware": "^1.0.2"
+                "psr/http-server-middleware": "^1.0"
             },
             "require-dev": {
                 "ext-xdebug": "*",
-                "laravel/pint": "v1.15.0",
+                "laravel/pint": "v1.19.0",
                 "roave/security-advisories": "dev-latest"
             },
             "type": "library",
@@ -278,9 +278,9 @@
             "description": "A simple attribute-based routing library",
             "support": {
                 "issues": "https://github.com/Jinya-CMS/jinya-router/issues",
-                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.10.0"
+                "source": "https://github.com/Jinya-CMS/jinya-router/tree/0.11.0"
             },
-            "time": "2024-03-30T22:58:07+00:00"
+            "time": "2025-01-05T01:39:09+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",
@@ -997,16 +997,16 @@
     "packages-dev": [
         {
             "name": "laravel/pint",
-            "version": "v1.18.3",
+            "version": "v1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
-                "reference": "cef51821608239040ab841ad6e1c6ae502ae3026"
+                "reference": "8169513746e1bac70c85d6ea1524d9225d4886f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/cef51821608239040ab841ad6e1c6ae502ae3026",
-                "reference": "cef51821608239040ab841ad6e1c6ae502ae3026",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/8169513746e1bac70c85d6ea1524d9225d4886f0",
+                "reference": "8169513746e1bac70c85d6ea1524d9225d4886f0",
                 "shasum": ""
             },
             "require": {
@@ -1017,10 +1017,10 @@
                 "php": "^8.1.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.65.0",
-                "illuminate/view": "^10.48.24",
-                "larastan/larastan": "^2.9.11",
-                "laravel-zero/framework": "^10.4.0",
+                "friendsofphp/php-cs-fixer": "^3.66.0",
+                "illuminate/view": "^10.48.25",
+                "larastan/larastan": "^2.9.12",
+                "laravel-zero/framework": "^10.48.25",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^1.17.0",
                 "pestphp/pest": "^2.36.0"
@@ -1059,7 +1059,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
-            "time": "2024-11-26T15:34:00+00:00"
+            "time": "2024-12-30T16:20:10+00:00"
         },
         {
             "name": "symfony/filesystem",

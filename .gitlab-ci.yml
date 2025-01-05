@@ -92,3 +92,4 @@ phpunit:
       # Sqlite testing
       - DATABASE_DSN: 'sqlite::memory:'
         DATABASE_TYPE: 'sqlite'
+        DATABASE_IMAGE: 'library/alpine:latest'
