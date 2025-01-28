@@ -4,7 +4,6 @@ namespace Jinya\Router\Extensions\Database\Cache;
 
 use FastRoute\Dispatcher;
 use Jinya\Router\Extensions\Database\Extensions\MigratingTestCase;
-
 use Jinya\Router\Http\FunctionMiddleware;
 
 use function FastRoute\simpleDispatcher;
