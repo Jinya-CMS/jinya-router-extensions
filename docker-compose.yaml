@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   jinya-router-extensions:
     image: registry.ulbricht.casa/jinya-cms/jinya-cms-php-base-test-image:cli
