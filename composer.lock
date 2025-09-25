@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "16c308cdce19df6c5e84f75a03dda07c",
+  "content-hash": "cc6ef0c2dc802958c784369c07e232d2",
   "packages": [
     {
       "name": "aura/sqlquery",
@@ -996,16 +996,16 @@
   "packages-dev": [
     {
       "name": "laravel/pint",
-      "version": "v1.21.2",
+      "version": "v1.22.1",
       "source": {
         "type": "git",
         "url": "https://github.com/laravel/pint.git",
-        "reference": "370772e7d9e9da087678a0edf2b11b6960e40558"
+        "reference": "941d1927c5ca420c22710e98420287169c7bcaf7"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/laravel/pint/zipball/370772e7d9e9da087678a0edf2b11b6960e40558",
-        "reference": "370772e7d9e9da087678a0edf2b11b6960e40558",
+        "url": "https://api.github.com/repos/laravel/pint/zipball/941d1927c5ca420c22710e98420287169c7bcaf7",
+        "reference": "941d1927c5ca420c22710e98420287169c7bcaf7",
         "shasum": ""
       },
       "require": {
@@ -1016,12 +1016,12 @@
         "php": "^8.2.0"
       },
       "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.72.0",
-        "illuminate/view": "^11.44.2",
-        "larastan/larastan": "^3.2.0",
+        "friendsofphp/php-cs-fixer": "^3.75.0",
+        "illuminate/view": "^11.44.7",
+        "larastan/larastan": "^3.4.0",
         "laravel-zero/framework": "^11.36.1",
         "mockery/mockery": "^1.6.12",
-        "nunomaduro/termwind": "^2.3",
+        "nunomaduro/termwind": "^2.3.1",
         "pestphp/pest": "^2.36.0"
       },
       "bin": [
@@ -1058,11 +1058,11 @@
         "issues": "https://github.com/laravel/pint/issues",
         "source": "https://github.com/laravel/pint"
       },
-      "time": "2025-03-14T22:31:42+00:00"
+      "time": "2025-05-08T08:38:12+00:00"
     },
     {
       "name": "symfony/filesystem",
-      "version": "v7.2.0",
+      "version": "v7.3.0",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/filesystem.git",
@@ -1108,7 +1108,7 @@
       "description": "Provides basic utilities for the filesystem",
       "homepage": "https://symfony.com",
       "support": {
-        "source": "https://github.com/symfony/filesystem/tree/v7.2.0"
+        "source": "https://github.com/symfony/filesystem/tree/v7.3.0"
       },
       "funding": [
         {
@@ -1128,7 +1128,7 @@
     },
     {
       "name": "symfony/polyfill-ctype",
-      "version": "v1.32.0",
+      "version": "v1.33.0",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -1187,7 +1187,7 @@
         "portable"
       ],
       "support": {
-        "source": "https://github.com/symfony/polyfill-ctype/tree/v1.32.0"
+        "source": "https://github.com/symfony/polyfill-ctype/tree/v1.33.0"
       },
       "funding": [
         {
@@ -1199,6 +1199,10 @@
           "type": "github"
         },
         {
+          "url": "https://github.com/nicolas-grekas",
+          "type": "github"
+        },
+        {
           "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
           "type": "tidelift"
         }
@@ -1207,7 +1211,7 @@
     },
     {
       "name": "symfony/polyfill-mbstring",
-      "version": "v1.32.0",
+      "version": "v1.33.0",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -1268,7 +1272,7 @@
         "shim"
       ],
       "support": {
-        "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.32.0"
+        "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.33.0"
       },
       "funding": [
         {
@@ -1277,6 +1281,10 @@
         },
         {
           "url": "https://github.com/fabpot",
+          "type": "github"
+        },
+        {
+          "url": "https://github.com/nicolas-grekas",
           "type": "github"
         },
         {
