@@ -24,7 +24,7 @@ use SplFileInfo;
  */
 class RouteBuilder
 {
-    /** @var array{'class': ReflectionClass, 'attrs': ApiRoute[]}[] */
+    /** @var array{'class': ReflectionClass<Findable|Creatable|Updatable|Deletable>, 'attrs': ApiRoute[]}[] */
     private array $classes;
 
     public function __construct(private readonly string $entityDirectory)
@@ -49,10 +49,10 @@ PHP;
         foreach ($entities as $entity) {
             /** @var ApiRoute[] $attrs */
             $attrs = $entity['attrs'];
-            /** @var ReflectionClass $class */
+            /** @var ReflectionClass<Findable|Creatable|Updatable|Deletable> $class */
             $class = $entity['class'];
 
-            /** @var class-string<Creatable|Updatable> $entityClass */
+            /** @var class-string<Findable|Creatable|Updatable|Deletable> $entityClass */
             $entityClass = $class->getName();
             $apiPathName = strtolower(
                 preg_replace('/(?<!^)[A-Z]/', '-$0', $class->getShortName()) ?? $class->getShortName()
@@ -107,7 +107,7 @@ PHP;
     /**
      * Gets the entities in the passed entity directory
      *
-     * @return array{'class': ReflectionClass, 'attrs': ApiRoute[]}[]
+     * @return array{'class': ReflectionClass<Findable|Creatable|Updatable|Deletable>, 'attrs': ApiRoute[]}[]
      */
     private function getClasses(): array
     {
@@ -122,6 +122,7 @@ PHP;
             if ($file->isFile() && $file->getExtension() === 'php') {
                 $className = $this->getClassNameFromFile($file);
                 if (class_exists($className)) {
+                    /** @var ReflectionClass<Findable|Creatable|Updatable|Deletable> $reflectionClass */
                     $reflectionClass = new ReflectionClass($className);
                     $apiRouteAttributes = $reflectionClass->getAttributes(
                         ApiRoute::class,
