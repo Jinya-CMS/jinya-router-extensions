@@ -1,0 +1,28 @@
+# Utilities
+
+The Jinya Router Extensions include a few utility functions to make working with PSR-7 requests easier.
+
+## `get_request`
+
+The `get_request` function creates a PSR-7 `ServerRequestInterface` from PHP globals (like `$_GET`, `$_POST`, `$_SERVER`).
+
+It also has built-in support for parsing JSON request bodies.
+
+### Usage
+
+```php
+use function Jinya\Router\Extensions\Database\get_request;
+
+// Create a request and parse the body if it's application/json
+$request = get_request(parseBody: true);
+
+// Get the parsed body (as an array)
+$data = $request->getParsedBody();
+```
+
+**Arguments:**
+- `parseBody` (bool, default: `false`): If true, the function will check the `Content-Type` header. If it is `application/json`, it will decode the request body and set it as the parsed body of the request.
+
+### Requirements
+
+This function requires `nyholm/psr7` and `nyholm/psr7-server` to be installed.

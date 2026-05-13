@@ -1,0 +1,54 @@
+---
+sidebar_position: 1
+---
+
+# Database Extensions
+
+The Jinya Router Extensions provide a powerful way to automatically generate API routes for your database entities. It integrates deeply with `jinya/database` and `jinya/router`.
+
+## Overview
+
+The core of the database extensions consists of:
+- **Attributes**: Annotate your entities to mark them as API-enabled.
+- **RouteBuilder**: Scans your entity directory and generates a FastRoute compatible routing table.
+- **DatabaseRequestHandler**: A generic handler that performs CRUD operations based on the entity's metadata.
+
+## Setup
+
+To use the database extensions, you typically need to:
+
+1.  Define your entities using `jinya/database`.
+2.  Add API attributes to your entities.
+3.  Use the `RouteBuilder` to generate your routes.
+4.  Configure your router to use the generated routes.
+
+### Example Entity
+
+```php
+<?php
+
+namespace App\Entities;
+
+use Jinya\Database\Attributes\Column;
+use Jinya\Database\Attributes\Id;
+use Jinya\Database\Attributes\Table;
+use Jinya\Database\Entity;
+use Jinya\Router\Extensions\Database\Attributes\Find;
+use Jinya\Router\Extensions\Database\Attributes\Create;
+
+#[Table('artists')]
+#[Find('/api/artist')]
+#[Create('/api/artist')]
+class Artist extends Entity
+{
+    #[Id]
+    #[Column(autoincrement: true)]
+    public int $id;
+
+    #[Column]
+    public string $name;
+
+    #[Column]
+    public string $email;
+}
+```

@@ -1,0 +1,42 @@
+# Route Generation
+
+The `RouteBuilder` is responsible for scanning your entities and generating the routing table.
+
+## Using `RouteBuilder`
+
+The `RouteBuilder` requires the path to the directory containing your entity classes. It will recursively scan the directory, find all classes with `ApiRoute` attributes, and generate the necessary FastRoute definitions.
+
+### Example
+
+```php
+use Jinya\Router\Extensions\Database\Cache\RouteBuilder;
+
+$builder = new RouteBuilder(__DIR__ . '/src/Entities');
+$routes = $builder->getRoutes();
+
+// The result is a string containing a PHP function that can be used with FastRoute
+// You can cache this string to a file for better performance
+file_put_contents(__DIR__ . '/cache/routes.php', "<?php\n\n" . $routes);
+```
+
+### Generated Routes
+
+The generated routes use the `DatabaseRequestHandler` to handle requests. The handler automatically manages:
+- Fetching entities from the database.
+- Validating required fields for create and update operations.
+- Handling database exceptions and converting them to appropriate HTTP responses.
+- Encoding the response as JSON or XML based on the `Accept` header.
+
+## Manual Integration
+
+If you don't want to use the `RouteBuilder`, you can manually use the `DatabaseRequestHandler` in your own route definitions.
+
+```php
+use Jinya\Router\Extensions\Database\DatabaseRequestHandler;
+use App\Entities\MyEntity;
+
+$handler = new DatabaseRequestHandler();
+
+// Example for a custom GET route
+$response = $handler->handleGetAllRequest($request, MyEntity::class);
+```

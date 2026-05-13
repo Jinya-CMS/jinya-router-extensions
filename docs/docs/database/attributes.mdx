@@ -1,0 +1,55 @@
+# Attributes
+
+Attributes are used to mark your `jinya/database` entities for automatic route generation.
+
+## Route Attributes
+
+All route attributes are located in the `Jinya\Router\Extensions\Database\Attributes` namespace.
+
+### `#[Find]`
+
+Marks an entity as findable. It generates two routes:
+- `GET /path`: Returns all entities (supports pagination via `offset` and `count` query parameters).
+- `GET /path/{id}`: Returns a single entity by its ID.
+
+**Arguments:**
+- `path` (string, optional): The base path for the routes. If omitted, a path based on the class name is generated.
+- `...middleware` (MiddlewareInterface): PSR-15 middlewares to apply to these routes.
+
+### `#[Create]`
+
+Marks an entity as creatable via `POST` requests.
+
+**Arguments:**
+- `path` (string, optional): The path for the route.
+- `...middleware` (MiddlewareInterface): PSR-15 middlewares to apply.
+
+### `#[Update]`
+
+Marks an entity as updatable via `PUT` requests.
+
+**Arguments:**
+- `path` (string, optional): The path for the route. The ID is automatically appended as `{id}`.
+- `...middleware` (MiddlewareInterface): PSR-15 middlewares to apply.
+
+### `#[Delete]`
+
+Marks an entity as deletable via `DELETE` requests.
+
+**Arguments:**
+- `path` (string, optional): The path for the route. The ID is automatically appended as `{id}`.
+- `...middleware` (MiddlewareInterface): PSR-15 middlewares to apply.
+
+## Property Attributes
+
+### `#[ApiIgnore]`
+
+Can be applied to properties that should be ignored during create or update operations. This is useful for sensitive fields or fields that are managed automatically.
+
+```php
+use Jinya\Router\Extensions\Database\Attributes\ApiIgnore;
+
+#[Column]
+#[ApiIgnore]
+public string $password;
+```
